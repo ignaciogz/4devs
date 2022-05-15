@@ -1,5 +1,5 @@
 {
-  "name": "4devs",
+  "name": "4devs-server",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
