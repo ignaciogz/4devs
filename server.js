@@ -1,11 +1,13 @@
 const { config } = require('./config');
-const ServerMw = require('./utils/middlewares/serverMw');
+const cors = require('cors')
+const ServerMw = require('./utils/middlewares/ServerMw');
 
 const express = require("express");
 
 const app = express();
 const serverRoutes = require('./routes');
 
+app.use(cors('*'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));

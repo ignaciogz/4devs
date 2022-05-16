@@ -1,10 +1,14 @@
 import React from 'react'
 
-//import Navbar from './components/Navbar'
-import './App.scss'
+import { ProductsProvider } from './context/ProductsContext'
+import AppRouter from './routes/AppRouter'
 
 function App() {
-  return <h2>Hola</h2>
+  return (
+    <ProductsProvider>
+      <AppRouter />
+    </ProductsProvider>
+  )
 }
 
 export default App
