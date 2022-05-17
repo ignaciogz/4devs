@@ -13,41 +13,65 @@ class Cart {
     }
 
     async create() {
-        const newCart = await this.#initCart();
+        try {
+            const newCart = await this.#initCart();
 
-        const cartID = await this.storage.save(newCart);
-        return cartID;
+            const cartID = await this.storage.save(newCart);
+            return cartID;
+        } catch (error) {
+            console.log("Error create() ", error);
+        }
     }
 
     async getID(id) {
-        const cart = await this.storage.getByID(id);
-        return cart;
+        try {
+            const cart = await this.storage.getByID(id);
+            return cart;
+        } catch (error) {
+            console.log("Error getID() ", error);
+        }
     }
 
     async add(id, item) {
-        const cart = await this.getID(id);
+        try {
+            const cart = await this.getID(id);
         
-        item.timestamp = TimeTools.getTimestamp();
-        cart.items.push(item);
+            item.timestamp = TimeTools.getTimestamp();
+            cart.items.push(item);
 
-        await this.#update(id, cart);
+            await this.#update(id, cart);
+        } catch (error) {
+            console.log("Error add() ", error);
+        }
     }
 
     async delete(id) {
-        await this.storage.deleteById(id);
+        try {
+            await this.storage.deleteById(id);
+        } catch (error) {
+            console.log("Error delete() ", error);
+        }
     }
 
     async deleteProduct(id, id_prod) {
-        const cart = await this.getID(id);
-        
-        const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
-        cart.items.splice(itemIndex, 1);
-        
-        await this.#update(id, cart);
+        try {
+            const cart = await this.getID(id);
+            
+            const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
+            cart.items.splice(itemIndex, 1);
+            
+            await this.#update(id, cart);
+        } catch (error) {
+            console.log("Error deleteProduct() ", error);
+        }
     }
 
     async #update(id, modifiedCart) {
-        await this.storage.update(id, modifiedCart);
+        try {
+            await this.storage.update(id, modifiedCart);
+        } catch (error) {
+            console.log("Error #update() ", error);
+        }       
     }
 }
 

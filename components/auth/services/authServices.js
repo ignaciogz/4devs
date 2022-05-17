@@ -1,24 +1,23 @@
 const { productsDao } = require('../../../utils/daos');
 
-class Products {
+class Auth {
     constructor() {
         this.storage = productsDao;
     }
 
     async getAll() {
         try {
-            
+            const products = await this.storage.getAll();
+            return products;   
         } catch (error) {
             console.log("Error getAll() ", error);
         }
-        const products = await this.storage.getAll();
-        return products;
     }
 
     async getID(id) {
         try {
             const product = await this.storage.getByID(id);
-            return product;    
+            return product;   
         } catch (error) {
             console.log("Error getID() ", error);
         }
@@ -43,7 +42,7 @@ class Products {
 
     async delete(id) {
         try {
-            await this.storage.deleteById(id);    
+            await this.storage.deleteById(id);   
         } catch (error) {
             console.log("Error delete() ", error);
         }
@@ -59,4 +58,4 @@ class Products {
     }
 }
 
-module.exports = new Products();
+module.exports = new Auth();

@@ -1,24 +1,74 @@
-const { config } = require('./config');
-const cors = require('cors')
-const ServerMw = require('./utils/middlewares/ServerMw');
+const { args, config } = require('./config');
 
 const express = require("express");
-
 const app = express();
+const ServerMw = require('./utils/middlewares/ServerMw');
 const serverRoutes = require('./routes');
 
+// ↓ ****** INICIO - CORS ****** ↓
+const cors = require('cors')
 app.use(cors('*'));
+// ↑ ****** FIN - CORS ****** ↑
+
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(express.static('views'));
 
+
+// ↓ ****** INICIO - GZIP ****** ↓
+let responseTime = require("response-time");
+app.use(responseTime());
+
+const gzip = require("compression");
+app.use(gzip({
+    threshold: 0
+}));
+// ↑ ****** FIN - GZIP ****** ↑
+
+// ↓ ****** INICIO - SESIONES ****** ↓
+const cookieParser = require("cookie-parser");
+const session = require('express-session');
+
+app.use(cookieParser());
+app.use(session({
+    cookie: { maxAge: 600000 },
+    resave: false,
+    rolling: true,
+    saveUninitialized: false,
+    secret: config.SESSION_SECRET,
+    store: MongoStore.create({ 
+        mongoUrl: DB.mongoDB.atlas_uri,
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true }
+    })
+}));
+// ↑ ****** FIN - SESIONES ****** ↑
+
+
 serverRoutes(app);
 
 app.use(ServerMw.routeNotImplemented);
 
-const server = app.listen(config.PORT, () => {
-    console.log(`Server on http://localhost:${config.PORT}`);
-})
 
-server.on("error", error => console.log(error));
+// ↓ ****** INICIO - Clusters y Escalabilidad ****** ↓
+if(args.MODE === "CLUSTER" && cluster.isMaster) {
+    console.log(`Master PID -> ${process.pid}`)
+
+    // WORKERS
+    for (let index = 0; index < CPUS.length; index++) {
+        cluster.fork();
+    }
+
+    cluster.on('exit', (worker, code, signal) => {
+        console.log(`El subproceso ${worker.process.pid} ha MUERTO !`)
+        cluster.fork()
+    })
+} else {
+    const server = httpServer.listen(args.PORT, () => {
+        console.log(`Server on http://localhost:${args.PORT} || Worker: ${process.pid} || Date: ${new Date()}`);
+    })
+    
+    server.on("error", error => console.log(error));
+}
+// ↑ ****** FIN - Clusters y Escalabilidad ****** ↑
