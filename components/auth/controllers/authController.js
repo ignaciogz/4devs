@@ -1,47 +1,31 @@
 const authServices = require('../services/authServices');
-const { administrator } = require('../../../utils/constants');
 
 class Auth {
-    async getAll(req, res, next) {
-        const products = await authServices.getAll();
-        res.json({ products, administrator });
-    };
+    getLogin(req, res, next) {
+        res.json({ Pagina: "Login" });
+    }
 
-    async getID(req, res, next) {
-        const { id } = req.params;
-    
-        const product = await authServices.getID(id);
-        res.json({ product, administrator });
-    };
-    
-    async add(req, res, next) {
-        const newProduct = req.body;
-    
-        const id = await authServices.add(newProduct);
-        res.json({ id });
-    };
-    
-    async update(req, res, next) {
-        const { id } = req.params;
-        const modifiedProduct = req.body;
-        
-        await authServices.update(parseInt(id), modifiedProduct);
-        res.json({});
-    };
-    
-    async delete(req, res, next) {
-        const { id } = req.params;
-        
-        await authServices.delete(id);
-        res.json({});
-    };
+    getRegistro(req, res, next) {
+        res.json({ Pagina: "Registro" });
+    }
 
-    // Extras
-    async productExist(req, res ,next) {
-        const { id } = req.params;
-    
-        const productExist = await authServices.productIDExist(id)
-        productExist ? next() : res.json({ error : 'producto no encontrado' });
+    isLogged(req, res, next) {
+        if(req.isAuthenticated()) {
+            res.json({ isLogged: true });
+        } else {
+            res.json({ isLogged: false });
+        }
+    }
+
+    error(req, res, next) {
+        res.json({ Error: "Un Mensaje de error" });
+    }
+
+    logout(req, res, next) {
+        req.session.destroy( err => {
+            if(err) res.send(JSON.stringify(err));
+            res.redirect("/");
+        });
     }
 }
 

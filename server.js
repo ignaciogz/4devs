@@ -1,4 +1,4 @@
-const { args, config } = require('./config');
+const { args, DB, config } = require('./config');
 
 const express = require("express");
 const app = express();
@@ -10,12 +10,10 @@ const cors = require('cors')
 app.use(cors('*'));
 // ↑ ****** FIN - CORS ****** ↑
 
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(express.static('views'));
-
 
 // ↓ ****** INICIO - GZIP ****** ↓
 let responseTime = require("response-time");
@@ -30,6 +28,7 @@ app.use(gzip({
 // ↓ ****** INICIO - SESIONES ****** ↓
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 app.use(cookieParser());
 app.use(session({
@@ -45,6 +44,12 @@ app.use(session({
 }));
 // ↑ ****** FIN - SESIONES ****** ↑
 
+// ↓ ****** INICIO - PASSPORT-LOCAL ****** ↓
+const { passportLocal } = require("./utils/passport/local");
+
+app.use(passportLocal.initialize());
+app.use(passportLocal.session());
+// ↑ ****** FIN - PASSPORT-LOCAL ****** ↑
 
 serverRoutes(app);
 
@@ -52,6 +57,9 @@ app.use(ServerMw.routeNotImplemented);
 
 
 // ↓ ****** INICIO - Clusters y Escalabilidad ****** ↓
+const cluster = require('cluster');
+const CPUS = require('os').cpus();
+
 if(args.MODE === "CLUSTER" && cluster.isMaster) {
     console.log(`Master PID -> ${process.pid}`)
 
@@ -65,7 +73,7 @@ if(args.MODE === "CLUSTER" && cluster.isMaster) {
         cluster.fork()
     })
 } else {
-    const server = httpServer.listen(args.PORT, () => {
+    const server = app.listen(args.PORT, () => {
         console.log(`Server on http://localhost:${args.PORT} || Worker: ${process.pid} || Date: ${new Date()}`);
     })
     

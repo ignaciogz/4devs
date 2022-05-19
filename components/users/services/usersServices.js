@@ -1,9 +1,10 @@
+const { productsDao } = require('../../../utils/daos');
 const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
-class Auth {
+class Users {
     constructor() {
         
     }
 }
 
-module.exports = new Auth();
+module.exports = new Users();

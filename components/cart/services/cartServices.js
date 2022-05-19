@@ -1,5 +1,6 @@
 const { cartsDao } = require('../../../utils/daos');
 const { ArrayTools, TimeTools } = require('../../../utils/tools');
+const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
 class Cart {
     constructor() {
@@ -19,7 +20,7 @@ class Cart {
             const cartID = await this.storage.save(newCart);
             return cartID;
         } catch (error) {
-            console.log("Error create() ", error);
+            loggerWinston.error(`CartServices -> Ejecutando: 'create()' || Error: ${error.message}`)
         }
     }
 
@@ -28,7 +29,7 @@ class Cart {
             const cart = await this.storage.getByID(id);
             return cart;
         } catch (error) {
-            console.log("Error getID() ", error);
+            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
         }
     }
 
@@ -41,7 +42,7 @@ class Cart {
 
             await this.#update(id, cart);
         } catch (error) {
-            console.log("Error add() ", error);
+            loggerWinston.error(`CartServices -> Ejecutando: 'add()' || Error: ${error.message}`)
         }
     }
 
@@ -49,7 +50,7 @@ class Cart {
         try {
             await this.storage.deleteById(id);
         } catch (error) {
-            console.log("Error delete() ", error);
+            loggerWinston.error(`CartServices -> Ejecutando: 'delete()' || Error: ${error.message}`)
         }
     }
 
@@ -62,15 +63,26 @@ class Cart {
             
             await this.#update(id, cart);
         } catch (error) {
-            console.log("Error deleteProduct() ", error);
+            loggerWinston.error(`CartServices -> Ejecutando: 'deleteProduct()' || Error: ${error.message}`)
         }
+    }
+
+    getDetail(cart) {
+        let detail = {};
+
+        for(let i=0; i < cart.items.length; i++) {
+            let nombreDeProducto = cart.items[i].nombre;
+            detail[nombreDeProducto] = detail.hasOwnProperty(nombreDeProducto) ? detail[nombreDeProducto] + 1 : 1;
+        }
+
+        return detail;
     }
 
     async #update(id, modifiedCart) {
         try {
             await this.storage.update(id, modifiedCart);
         } catch (error) {
-            console.log("Error #update() ", error);
+            loggerWinston.error(`CartServices -> Ejecutando: '#update()' || Error: ${error.message}`)
         }       
     }
 }

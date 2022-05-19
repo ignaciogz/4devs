@@ -11,6 +11,8 @@ module.exports = app => {
     router.post('/', cartController.create);
     
     router.post('/:id/productos', cartController.add);
+
+    router.post('/:id/checkout', cartController.checkout);
     
     router.delete('/:id', cartController.delete);
     

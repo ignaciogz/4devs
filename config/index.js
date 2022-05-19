@@ -15,8 +15,15 @@ let args = yargs
 args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT"]);
 
 const config = {
-    PORT: process.env.PORT,
+    ADMIN_PHONE: process.env.ADMIN_PHONE,
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+    ADMIN_PASS_APP: process.env.ADMIN_PASS_APP,
+    TWILIO_SID: process.env.TWILIO_SID,
+    TWILIO_TOKEN: process.env.TWILIO_TOKEN,
+    TWILIO_PHONE: process.env.TWILIO_PHONE,
+    TWILIO_WPP_PHONE: process.env.TWILIO_WPP_PHONE,
     SELECTED_STORAGE: process.env.STORAGE,
+    SESSION_SECRET: process.env.SESSION_SECRET || "NO SUPER SECRET"
 }
 
 const DB = {
@@ -51,4 +58,4 @@ const DB = {
     }
 }
 
-module.exports = { config, DB };
+module.exports = { args, config, DB };

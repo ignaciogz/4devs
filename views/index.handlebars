@@ -19,20 +19,32 @@
                                 <a class="nav-link" href="#">Contact Us</a>
                             </li>
                     </ul>
-                    {{#if administrator}}
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link disabled">Admin Menu:</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-info text-uppercase fw-bold" href="/#addproduct">Add product</a>   
-                        </li>
-                    </ul>
+                    {{#if isLogged}}
+                        {{#if user.administrator}}
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link disabled">Admin Menu:</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-info text-uppercase fw-bold" href="/#addproduct">Add product</a>   
+                            </li>
+                        </ul>
+                        {{/if}}
+                        <div class="d-flex navbar-text">
+                            <a class="nav-link" href="/#user"><i class="fa-solid fa-user"></i></a>
+                            <a class="nav-link" href="/#cart"><i class="fa-solid fa-cart-shopping"></i> <span id="itemsNumber">{{cart.items.length}}</span></a>
+                            <a class="nav-link btn btn-danger text-uppercase fw-bold" href="/api/auth/logout">Logout</i></a>
+                        </div>
+                    {{else}}
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-secondary text-uppercase fw-bold" href="/#register">Signup <i class="fa-solid fa-user-plus"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-info text-uppercase fw-bold" href="/#login">Login <i class="fa-solid fa-right-to-bracket"></i></a>
+                            </li>
+                        </ul>
                     {{/if}}
-                    <div class="d-flex navbar-text">
-                        <a class="nav-link" href="/#"><i class="fa-solid fa-user"></i></a>
-                        <a class="nav-link" href="/#cart"><i class="fa-solid fa-cart-shopping"></i> <span id="itemsNumber">{{cart.items.length}}</span></a>
-                    </div>
                 </div>
             </div>
         </nav>
@@ -59,9 +71,13 @@
                                         </p>
                                         <p class="card-text text-center">{{this.descripcion}}</p>
                                         <div class="col-6 mx-auto">
+                                        {{#if ../isLogged}}
                                             <a href="javaScript:void(0)" class="btn btn-primary mb-2 addBtn" data-id_prod={{this.id}}>Add to cart</a>
+                                        {{else}}
+                                            <a href="/#login" class="btn btn-secondary mb-2 addBtn" data-id_prod={{this.id}}>Add to cart</a>
+                                        {{/if}}
                                         </div>
-                                        {{#if ../administrator}}
+                                        {{#if ../user.administrator}}
                                         <div class="card-footer">
                                             <div class="btn-group mt-2 w-100" role="group" aria-label="administrator options">
                                                 <a href="javaScript:void(0)" class="btn btn-warning editBtn" data-bs-toggle="modal" data-bs-target="#modalEdit" data-id_prod={{this.id}}>
@@ -85,7 +101,7 @@
     </div>
 </div>
 
-{{#if administrator}}
+{{#if user.administrator}}
 <!-- Modal -->
 <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">

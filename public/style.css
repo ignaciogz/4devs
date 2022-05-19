@@ -83,3 +83,25 @@
 .productContainer {
     row-gap: 1.5rem;
 }
+
+.formContainer {
+    max-width: 700px;
+    width: 100%;
+    margin: 2rem auto 0px;
+    box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgb(0 0 0 / 45%);
+    padding: 25px;
+}
+
+.formContainer input {
+    margin-bottom: 1rem;
+}
+
+.img-thumbnail {
+    height: 280px;
+    margin-bottom: 2rem;
+    width: 280px;
+}
+
+.checkOutBtn {
+    font-weight: bolder;
+}

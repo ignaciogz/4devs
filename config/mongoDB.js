@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 (async ()=>{
     try {
-        mongoose.connect(DB.mongoDB.uri, {
+        mongoose.connect(DB.mongoDB.atlas_uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true 
         })
@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
             console.log("--------------------------------------------------------------------");
             console.log("mongodb is connected !");
         })
-        .catch(e=>console.log(e));;
+        .catch(e => console.log(e));
         
     } catch (error) {
         console.log(error);

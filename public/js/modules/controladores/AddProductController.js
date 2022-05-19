@@ -3,15 +3,24 @@ import { Global } from '../utils.js';
 
 class AddProductController {
     static async ejecutar() {
-        const HBSTemplate = await View.getHBS("addproduct");
-
         const dataCart = await Request.GET(`/api/carrito/${Global.cartId}/productos`);
+        const dataAuth = await Request.GET(`/api/auth`);
 
-        const viewData = Object.assign(dataCart);
-                    
-        View.renderView(HBSTemplate, viewData);
+        let viewData = Object.assign(dataCart, dataAuth);
 
-        AddProductController.addEventHandlers();
+        if(dataAuth.isLogged) {
+            const dataUser = await Request.GET(`/api/usuario`);
+            viewData = Object.assign(viewData, dataUser);
+
+            if(dataUser.user.administrator) {
+                const HBSTemplate = await View.getHBS("addproduct");
+                
+                View.renderView(HBSTemplate, viewData);
+                AddProductController.addEventHandlers();
+            } else {
+                location = "/#"
+            }
+        }
     }
 
     static addEventHandlers() {

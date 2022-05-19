@@ -1,17 +1,16 @@
 const productsServices = require('../services/productsServices');
-const { administrator } = require('../../../utils/constants');
 
 class Products {
     async getAll(req, res, next) {
         const products = await productsServices.getAll();
-        res.json({ products, administrator });
+        res.json({ products });
     };
 
     async getID(req, res, next) {
         const { id } = req.params;
     
         const product = await productsServices.getID(id);
-        res.json({ product, administrator });
+        res.json({ product });
     };
     
     async add(req, res, next) {

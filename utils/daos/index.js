@@ -1,6 +1,7 @@
 const { config } = require('../../config');
 
 // Los posibles SELECTED_STORAGE son -> Firebase ; FS ; MariaDB ; Memory ; MongoDB ; SQLite3
+const AuthDao = require(`./auth/AuthDaoMongoDB`);
 const CartsDao = require(`./carts/CartsDao${config.SELECTED_STORAGE}`);
 const ProductsDao = require(`./products/ProductsDao${config.SELECTED_STORAGE}`);
 
@@ -16,6 +17,7 @@ const ProductsDao = require(`./products/ProductsDao${config.SELECTED_STORAGE}`);
 */
 
 module.exports = {
+    authDao:  new AuthDao(),
     cartsDao: new CartsDao(),
     productsDao: new ProductsDao()
 };

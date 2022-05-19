@@ -6,8 +6,14 @@ class CartController {
         const HBSTemplate = await View.getHBS("cart");
 
         const dataCart = await Request.GET(`/api/carrito/${Global.cartId}/productos`);
+        const dataAuth = await Request.GET(`/api/auth`);
 
-        const viewData = Object.assign(dataCart);
+        let viewData = Object.assign(dataCart, dataAuth);
+
+        if(dataAuth.isLogged) {
+            const dataUser = await Request.GET(`/api/usuario`);
+            viewData = Object.assign(viewData, dataUser);
+        }
                     
         View.renderView(HBSTemplate, viewData);
 
@@ -42,6 +48,16 @@ class CartController {
                 });
             });
         }
+
+        const checkOutBtn = document.getElementById("checkOutBtn");
+        checkOutBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            
+            const res = Request.POST(`/api/carrito/${Global.cartId}/checkout`);
+            res.then(data => {
+                location = "/#";
+            });
+        });
     }
 }
 

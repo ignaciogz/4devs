@@ -49,45 +49,22 @@
             </div>
         </nav>
 
-        <div class="col-10 offset-1">
+        <div class="col-12">
             <div class="contenido">
-                <h3 class="text-center">Shopping Cart 
-                    <a href="javaScript:void(0)" id="deleteAllCartBtn" class="btn btn-outline-danger ms-2">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </h3>
+                <h3 class="text-center">Info del usuario</h3>
 
-                {{#if cart.items.length}}
-                <table class="table table-dark table-borderless align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Foto</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="contenedorProductos">
-                        {{#each cart.items}}
-                        <tr>
-                            <td><img src="{{this.foto}}" class="thumbnail"></td>
-                            <td>{{this.nombre}}</td>
-                            <td>{{this.precio}}</td>
-                            <td>
-                                <a href="javaScript:void(0)" class="btn btn-danger ms-2 deleteProdCartBtn" data-id_prod={{this.id}}>
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-                <div class="d-flex justify-content-end">
-                    <a href="javaScript:void(0)" id="checkOutBtn" class="checkOutBtn btn btn-light me-3 text-uppercase btn-lg">Check Out</a>
+                <div class="row">
+                    <div class="col-3">
+                        <img src="/img/profile/{{user.foto}}" class="img-thumbnail mx-auto d-block" title="Foto de perfil de {{user.nombre}}" alt="Foto de perfil de {{user.nombre}}">
+                    </div>
+                    <div class="col-9">
+                        <ul class="list-group">
+                            {{#each user}}
+                                <li class="list-group-item"><strong>{{@key}}</strong> -> {{this}}</li>
+                            {{/each}}
+                        </ul>
+                    </div>
                 </div>
-                {{else}}
-                <p class="alert alert-warning no-data">Your shopping cart are empty</p>
-                {{/if}}
             </div>
         </div>
     </div>

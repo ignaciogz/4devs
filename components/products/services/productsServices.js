@@ -1,4 +1,5 @@
 const { productsDao } = require('../../../utils/daos');
+const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
 class Products {
     constructor() {
@@ -7,12 +8,11 @@ class Products {
 
     async getAll() {
         try {
-            
+            const products = await this.storage.getAll();
+            return products;    
         } catch (error) {
-            console.log("Error getAll() ", error);
+            loggerWinston.error(`ProductsServices -> Ejecutando: 'getAll()' || Error: ${error.message}`)
         }
-        const products = await this.storage.getAll();
-        return products;
     }
 
     async getID(id) {
@@ -20,7 +20,7 @@ class Products {
             const product = await this.storage.getByID(id);
             return product;    
         } catch (error) {
-            console.log("Error getID() ", error);
+            loggerWinston.error(`ProductsServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
         }
     }
 
@@ -29,7 +29,7 @@ class Products {
             const productID = await this.storage.save(newProduct);
             return productID;   
         } catch (error) {
-            console.log("Error add() ", error);
+            loggerWinston.error(`ProductsServices -> Ejecutando: 'add()' || Error: ${error.message}`)
         }
     }
 
@@ -37,7 +37,7 @@ class Products {
         try {
             await this.storage.update(id, modifiedProduct);    
         } catch (error) {
-            console.log("Error update() ", error);
+            loggerWinston.error(`ProductsServices -> Ejecutando: 'update()' || Error: ${error.message}`)
         }
     }
 
@@ -45,7 +45,7 @@ class Products {
         try {
             await this.storage.deleteById(id);    
         } catch (error) {
-            console.log("Error delete() ", error);
+            loggerWinston.error(`ProductsServices -> Ejecutando: 'delete()' || Error: ${error.message}`)
         }
     }
 
@@ -54,7 +54,7 @@ class Products {
             const exist = await this.storage.elementExist(id);
             return exist;   
         } catch (error) {
-            console.log("Error productIDExist() ", error);
+            loggerWinston.error(`ProductsServices -> Ejecutando: 'productIDExist()' || Error: ${error.message}`)
         }
     }
 }

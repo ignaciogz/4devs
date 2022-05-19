@@ -2,7 +2,10 @@ class Ruteador {
     static rutas = {
         "/": "IndexController",
         "addproduct": "AddProductController",
-        "cart": "CartController"
+        "cart": "CartController",
+        "login": "LoginController",
+        "register": "RegisterController",
+        "user": "UserController"
     };
 
     static existe(pagina) {

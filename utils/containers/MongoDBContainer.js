@@ -5,25 +5,25 @@ class MongoDBContainer {
     constructor(modelName, schema) {
         const schemaModel = new mongoose.Schema(schema);
         this.model = new mongoose.model(modelName, schemaModel);
-
-        this.#init();
     }
 
-    async #init() {
-        this.lastID = await this.getAll().then(content => {
-            const elementsQty = content.length; 
-
-            if (elementsQty > 0) {
-                const lastElement = content[elementsQty-1];
-                return lastElement.id;
-            }
-
-            return 0;
-        });
-    }
-
-    #getNewID() {
-        return ++this.lastID;
+    async #getNewID() {
+        try {
+            let lastID = await this.getAll().then(content => {
+                const elementsQty = content.length; 
+    
+                if (elementsQty > 0) {
+                    const lastElement = content[elementsQty-1];
+                    return lastElement.id;
+                }
+    
+                return 0;
+            });
+    
+            return ++lastID;   
+        } catch (error) {
+            console.log("Error #getNewID() ", error);
+        }
     }
 
     async getByID(id) {
@@ -46,7 +46,7 @@ class MongoDBContainer {
 
     async save(data) {
         try {
-            data.id = this.#getNewID();
+            data.id = await this.#getNewID();
             data.timestamp = TimeTools.getTimestamp();
 
             await this.model.create(data);
@@ -79,7 +79,6 @@ class MongoDBContainer {
     async deleteAll() {
         try {
             await this.model.deleteMany({});
-            this.lastID = 0;
         } catch (error) {
             console.log("Error deleteAll() ", error);
         }
