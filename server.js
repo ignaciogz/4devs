@@ -2,8 +2,8 @@ const { args, DB, config } = require('./config');
 
 const express = require("express");
 const app = express();
-const ServerMw = require('./utils/middlewares/ServerMw');
 const serverRoutes = require('./routes');
+const serverMw = require('./utils/middlewares/ServerMw');
 
 // ↓ ****** INICIO - CORS ****** ↓
 const cors = require('cors')
