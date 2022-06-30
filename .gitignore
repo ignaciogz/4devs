@@ -1,7 +1,7 @@
 node_modules/
 package-lock.json
 .env
-utils/firebase/config/
-logs/
 wireframes/
 react/
+views/
+data/
