@@ -3,7 +3,7 @@ const authController = require('./controllers/authController');
 const authMw = require('./middlewares/authMw');
 const router = express.Router();
 
-const { passportLocal } = require('../../utils/passport/local');
+const { passportLocal } = require('./middlewares/passportLocalMw');
 const { uploadFile } = require('../../utils/multer');
 const { resizer } = require('../../utils/jimp');
 
@@ -20,6 +20,8 @@ const uploadFileMw = new uploadFile({
 
 module.exports = app => {
     app.use('/api/auth', router);
+    app.use(passportLocal.initialize());
+    app.use(passportLocal.session());
 
     router.get("/", authController.isLogged);
     

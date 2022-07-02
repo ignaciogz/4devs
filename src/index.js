@@ -14,10 +14,6 @@ const cookieParser = require("cookie-parser");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-// ↓ ****** PASSPORT-FACEBOOK ****** ↓
-const { passportLocal } = require("./utils/passport/local");
-//const { passportFacebook } = require("./utils/passport/facebook");
-
 // ↓ ****** RUTAS ****** ↓
 const serverRoutes = require('./routes');
 
@@ -27,6 +23,7 @@ const serverMw = require('./utils/middlewares/ServerMw');
 class Server {
     constructor() {
         this.app = express();
+        this.httpServer = new HttpServer(this.app);
         this.port = args.PORT;
         this.mode = args.MODE;
         
@@ -35,8 +32,6 @@ class Server {
         this.routes();
         //this.sockets();
         this.middlewareError();
-        
-        this.httpServer = new HttpServer(this.app);
     }
 
     settings() {
@@ -68,11 +63,6 @@ class Server {
             })
         }));
         // ↑ ****** FIN - SESIONES ****** ↑
-
-        // ↓ ****** INICIO - PASSPORT-FACEBOOK ****** ↓
-        this.app.use(passportLocal.initialize());
-        this.app.use(passportLocal.session());
-        // ↑ ****** FIN - PASSPORT-FACEBOOK ****** ↑
     }
 
     routes() {

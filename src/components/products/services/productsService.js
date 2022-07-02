@@ -28,7 +28,7 @@ class Products {
         try {
             newProduct.rating = 3;
             const productID = await this.storage.save(newProduct);
-            return productID;   
+            return productID;
         } catch (error) {
             loggerWinston.error(`ProductsServices -> Ejecutando: 'add()' || Error: ${error.message}`)
         }

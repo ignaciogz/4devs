@@ -19,46 +19,17 @@ class NodeMailer {
             loggerWinston.error(`NodeMailer -> Ejecutando: '${ejecutando}' || Error: ${error.message}`);
         }
     }
-
-    send_NewUser(newUser) {
-        const mailOptions = {
-            from: 'Node.js Server',
-            to: config.ADMIN_EMAIL,
-            subject: 'Store - New User',
-            html: `
-                <h1 style="color: coral;">New User</h1>
-                
-                <table style="width:100%">
-                    <tr>
-                        <th style="text-align:right; vertical-align: top;">Email:</th>
-                        <td>${newUser.email}</td>
-                    </tr>
-                    <tr>
-                        <th style="text-align:right; vertical-align: top;">Password:</th>
-                        <td>${newUser.password}</td>
-                    </tr>
-                    <tr>
-                        <th style="text-align:right; vertical-align: top;">Name:</th>
-                        <td>${newUser.name}</td>
-                    </tr>
-                    <tr>
-                        <th style="text-align:right; vertical-align: top;">Avatar:</th>
-                        <td>${newUser.img}</td>
-                    </tr>
-                    <tr>
-                        <th style="text-align:right; vertical-align: top;">Role:</th>
-                        <td>${newUser.role}</td>
-                    </tr>
-                </table>
-            `
+    
+    /* send_NewOrder(user, detail) {
+        let detailText = "";
+    
+        for (const nombreDeProducto in detail) {
+            detailText += `<tr>
+                <td style="vertical-align: top;">${detail[nombreDeProducto]}u</td>
+                <td style="vertical-align: top;">${nombreDeProducto}</td>
+            </tr>`
         }
-        
-        NodeMailer.send(mailOptions, "send_NewUser()");
-    }
-    
-    send_NewOrder(user, detail) {
-        const detailText = NodeMailer.createDetailText(detail);
-    
+
         const mailOptions = {
             from: 'Node.js Server',
             to: config.ADMIN_EMAIL,
@@ -80,20 +51,7 @@ class NodeMailer {
         }
         
         NodeMailer.send(mailOptions, "send_NewOrder()");
-    }
-
-    static createDetailText(detail) {
-        let detailText = "";
-    
-        for (const nombreDeProducto in detail) {
-            detailText += `<tr>
-                <td style="vertical-align: top;">${detail[nombreDeProducto]}u</td>
-                <td style="vertical-align: top;">${nombreDeProducto}</td>
-            </tr>`
-        }
-
-        return detailText;
-    }
+    } */
 }
 
-module.exports = new NodeMailer();
+module.exports = { NodeMailer }
