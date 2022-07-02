@@ -27,17 +27,16 @@ const serverMw = require('./utils/middlewares/ServerMw');
 class Server {
     constructor() {
         this.app = express();
-        this.httpServer = new HttpServer(this.app);
         this.port = args.PORT;
         this.mode = args.MODE;
         
         this.settings();
         this.middleware();
         this.routes();
-        this.graphql();
-        this.sockets();
+        //this.sockets();
         this.middlewareError();
-
+        
+        this.httpServer = new HttpServer(this.app);
     }
 
     settings() {

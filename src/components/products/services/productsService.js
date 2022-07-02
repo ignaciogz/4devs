@@ -26,6 +26,7 @@ class Products {
 
     async add(newProduct) {
         try {
+            newProduct.rating = 3;
             const productID = await this.storage.save(newProduct);
             return productID;   
         } catch (error) {

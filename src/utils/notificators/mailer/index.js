@@ -22,51 +22,74 @@ class NodeMailer {
 
     send_NewUser(newUser) {
         const mailOptions = {
-            from: 'Servidor Node.js',
+            from: 'Node.js Server',
             to: config.ADMIN_EMAIL,
-            subject: 'Nuevo registro',
+            subject: 'Store - New User',
             html: `
-                <h1 style="color: blue;">Nuevo usuario registrado</h1>
-                <ul>
-                    <li>Email: ${newUser.username}</li>
-                    <li>Password: ${newUser.password}</li>
-                    <li>Nombre: ${newUser.nombre}</li>
-                    <li>Direccion: ${newUser.direccion}</li>
-                    <li>Edad: ${newUser.edad}</li>
-                    <li>Telefono: ${newUser.telefono}</li>
-                    <li>Foto: ${newUser.foto}</li>
-                </ul>
+                <h1 style="color: coral;">New User</h1>
+                
+                <table style="width:100%">
+                    <tr>
+                        <th style="text-align:right; vertical-align: top;">Email:</th>
+                        <td>${newUser.email}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right; vertical-align: top;">Password:</th>
+                        <td>${newUser.password}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right; vertical-align: top;">Name:</th>
+                        <td>${newUser.name}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right; vertical-align: top;">Avatar:</th>
+                        <td>${newUser.img}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right; vertical-align: top;">Role:</th>
+                        <td>${newUser.role}</td>
+                    </tr>
+                </table>
             `
         }
         
-        NodeMailer.send(mailOptions, "mailAdmin_nuevoUsuario()");
+        NodeMailer.send(mailOptions, "send_NewUser()");
     }
     
     send_NewOrder(user, detail) {
         const detailText = NodeMailer.createDetailText(detail);
     
         const mailOptions = {
-            from: 'Servidor Node.js',
+            from: 'Node.js Server',
             to: config.ADMIN_EMAIL,
-            subject: `Nuevo pedido de ${user.nombre} - ${user.username}`,
+            subject: `New Order ${user.name} - ${user.email}`,
             html: `
-                <h1 style="color: orange;">Nuevo pedido !</h1>
+                <h1 style="color: lightskyblue;">New Order !</h1>
     
-                <h3>DETALLE: </h3>
-                <ul>
+                <h3>DETAILS: </h3>
+                <hr />
+                
+                <table style="width:100%">
+                    <tr>
+                        <th style="width:20%">Units</th>
+                        <th style="width:80%">Product</th>
+                    </tr>
                     ${detailText}
-                </ul>
+                </table>
             `
         }
         
-        NodeMailer.send(mailOptions, "mailAdmin_nuevoPedido()");
+        NodeMailer.send(mailOptions, "send_NewOrder()");
     }
 
     static createDetailText(detail) {
         let detailText = "";
     
         for (const nombreDeProducto in detail) {
-            detailText += `<li><b>${detail[nombreDeProducto]}u</b> de <i>'${nombreDeProducto}'</i></li>`;
+            detailText += `<tr>
+                <td style="vertical-align: top;">${detail[nombreDeProducto]}u</td>
+                <td style="vertical-align: top;">${nombreDeProducto}</td>
+            </tr>`
         }
 
         return detailText;

@@ -5,11 +5,11 @@ const usersAPI = require('../components/users');
 
 module.exports = app => {
     authAPI(app);
-    cartAPI(app);
+    //cartAPI(app);
     productsAPI(app);
     usersAPI(app);
     
-    app.get('/', (req, res) => {
+    app.get('/', (req, res, next) => {
         res.sendFile('index.html', { root: __dirname });
     });
 }

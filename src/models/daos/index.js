@@ -3,7 +3,7 @@ const { config } = require('../../config');
 // Los posibles SELECTED_STORAGE son -> FS ; MariaDB ; Memory ; MongoDB
 const CartsDao = require(`./carts/CartsDao${config.SELECTED_STORAGE}`);
 const ProductsDao = require(`./products/ProductsDao${config.SELECTED_STORAGE}`);
-const UsersDao = require(`./users/UsersDaoMongoDB`);
+const UsersDao = require(`./users/UsersDao${config.SELECTED_STORAGE}`);
 
 const myDAO = {
     cartsDao: new CartsDao(),

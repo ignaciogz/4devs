@@ -6,9 +6,9 @@ class UsersDaoMongoDB extends MongoDBContainer {
         super("users", usersSchema);
     }
 
-    async getByUserName(username) {
+    async getByEmail(email) {
         try {
-            const result = await this.model.find({username}).limit(1);
+            const result = await this.model.find({email}).limit(1);
             return result.shift();
         } catch (error) {
             console.log("Error getByUserName() ", error);

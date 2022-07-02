@@ -1,16 +1,25 @@
+const { usersDao } = require('../../../models/daos');
 const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
 class Users {
+    constructor() {
+        this.storage = usersDao;
+    }
+
     getUserData(userLogged) {
         return { 
-            email: userLogged.username,
+            email: userLogged.email,
             nombre: userLogged.nombre,
-            direccion: userLogged.direccion,
-            edad: userLogged.edad,
-            telefono: userLogged.telefono,
-            foto: userLogged.foto,
-            administrator: userLogged.administrator
+            img: userLogged.img,
+            role: userLogged.role
         }
+    }
+
+    async userExist(email) {
+        const user = await this.storage.getByEmail(email);
+        
+        if(user) return true
+        return false
     }
 }
 

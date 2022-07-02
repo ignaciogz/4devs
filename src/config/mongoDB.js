@@ -11,7 +11,7 @@ const MONGO_ATLAS_URI = DB.mongoDB.atlas_uri;
     })
     .then(()=>{ 
         console.log("--------------------------------------------------------------------");
-        console.log("mongodb is connected !");
+        console.log("MongoDB is connected !");
     })
     .catch(error => console.log(error));
 })();

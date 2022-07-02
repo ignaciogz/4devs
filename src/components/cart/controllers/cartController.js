@@ -1,7 +1,6 @@
 const cartService = require('../services/cartService');
 
 const mailer = require('../../../utils/notificators/mailer');
-const twilio = require('../../../utils/notificators/twilio');
 
 class Cart {
     async getID(req, res, next) {
@@ -18,8 +17,6 @@ class Cart {
         const detail = cartService.getDetail(cart);
         
         mailer.send_NewOrder(req.user, detail);
-        twilio.sendWPP_NewOrder(req.user);
-        twilio.sendSMS_NewOrder(req.user);
 
         await cartService.delete(id);
 

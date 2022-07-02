@@ -12,7 +12,7 @@ const logger = {
         transports: [
             new winston.transports.Console(),
             new winston.transports.File({
-                filename: './data/logs/warn.log',
+                filename: './src/data/logs/warn.log',
             }),
         ]
     }),
@@ -21,7 +21,7 @@ const logger = {
         transports: [
             new winston.transports.Console(),
             new winston.transports.File({
-                filename: './data/logs/error.log',
+                filename: './src/data/logs/error.log',
             }),
         ]
     })

@@ -1,10 +1,39 @@
-const usersServices = require('../services/usersService');
+const usersService = require('../services/usersService');
 
 class Users {
     getUserData(req, res, next) {
-        const user = usersServices.getUserData(req.user);
+        try {
+            const user = usersService.getUserData(req.user);
 
-        res.json({ user });
+            res.json({ 
+                success: true,
+                data: { user } 
+            });
+        } catch (error) {
+            res.json({ 
+                success: false,
+                error: { description: "Error into userController -> getUserData Mw" } 
+            });
+        }
+    }
+
+    async userExist(req, res ,next) {
+        try {
+            const { email } = req.body;
+            const userExist = await usersService.userExist(email)
+            
+            res.json({ 
+                success: true,
+                data: { 
+                    user: { exist: userExist }
+                }
+            });
+        } catch (error) {
+            res.json({ 
+                success: false,
+                error: { description: "Error into userController -> userExist Mw" } 
+            });
+        }
     }
 }
 

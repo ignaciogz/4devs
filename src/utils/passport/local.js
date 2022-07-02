@@ -9,7 +9,7 @@ const mailer = require('../notificators/mailer');
 // ↓ ****** INICIO - PASSPORT-LOCAL ****** ↓
 passportLocal.use('loginLocal', new LocalStrategy(async (username, password, done) => {
     try {
-        const user = await storage.getByUserName(username);
+        const user = await storage.getByUserEmail(username);
 
         if (!user) {
             loggerWinston.error(`Error en login -> Passport: 'LOCAL' || Msj: Usuario con username '${username}' NO encontrado`)
@@ -30,25 +30,22 @@ passportLocal.use('loginLocal', new LocalStrategy(async (username, password, don
 
 passportLocal.use('registerLocal', new LocalStrategy({ passReqToCallback: true }, async (req, username, password, done) => {
     try {
-        const user = await storage.getByUserName(username);
-
+        const email = username;
+        const user = await storage.getByEmail(email);
         if (user) {
-            loggerWinston.error(`Error en register -> Passport: 'LOCAL' || Msj: El usuario '${username}' ya existe !`)
+            loggerWinston.error(`Error en register -> Passport: 'LOCAL' || Msj: El usuario '${email}' ya existe !`)
             return done(null, false)
         }
         
         const newUser = {
-            username,
+            email,
+            name: req.body.name,
             password: AuthTools.createHash(password),
-            nombre: req.body.nombre,
-            direccion: req.body.direccion,
-            edad: Number(req.body.edad),
-            telefono: Number(req.body.telefono),
-            foto: req.file.filename,
-            administrator: false
+            img: req.file.filename,
+            role: "user"
         }
 
-        mailer.sendNewUser(newUser);
+        mailer.send_NewUser(newUser);
     
         await storage.save(newUser);
         
@@ -59,13 +56,13 @@ passportLocal.use('registerLocal', new LocalStrategy({ passReqToCallback: true }
 }));
 
 passportLocal.serializeUser((user, done) => {
-    done(null, user.username);
+    done(null, user.email);
 });
 
-passportLocal.deserializeUser(async (username, done) => {
+passportLocal.deserializeUser(async (email, done) => {
     try {
-        const user = await storage.getByUserName(username);
-        done(null, user);   
+        const user = await storage.getByEmail(email);
+        done(null, user);
     } catch (error) {
         loggerWinston.error(`Passport Local -> Ejecutando: 'deserializeUser' || Error: ${error.message}`)
     }

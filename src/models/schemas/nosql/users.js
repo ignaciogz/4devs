@@ -1,12 +1,9 @@
 const usersSchema = {
-	username: { type: String, required: true }, // -> Email del usuario
+	email: { type: String, required: true },
+	name: { type: String, required: true },
 	password: { type: String, required: true },
-	nombre: { type: String, required: true },
-	direccion: { type: String, required: true },
-	edad: { type: Number, required: true },
-	telefono: { type: Number, required: true },
-	foto: { type: String, required: true },
-	administrator: { type: Boolean, required: true }
+	img: { type: String, required: true },
+	role: { type: String, required: true }
 };
 
 module.exports = usersSchema;

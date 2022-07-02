@@ -2,7 +2,7 @@ const FSContainer = require('../../containers/FSContainer');
 
 class CartsDaoFS extends FSContainer {
     constructor() {
-        super("data/carts.txt");
+        super("src/data/carts.txt");
     }
 
     async desconectar() {
