@@ -1,6 +1,7 @@
 const { AuthTools } = require("../../../utils/tools");
 const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
+const notificationsService = require('../../notifications/services/notificationsService');
 const usersService = require('../../users/services/usersService');
 
 class Auth {
@@ -41,7 +42,7 @@ class Auth {
                 role: "user"
             }
     
-            usersService.notify_NewRegister(newUser);
+            notificationsService.notify_NewRegister(newUser);
         
             await usersService.add(newUser);
             

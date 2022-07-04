@@ -19,39 +19,6 @@ class NodeMailer {
             loggerWinston.error(`NodeMailer -> Ejecutando: '${ejecutando}' || Error: ${error.message}`);
         }
     }
-    
-    /* send_NewOrder(user, detail) {
-        let detailText = "";
-    
-        for (const nombreDeProducto in detail) {
-            detailText += `<tr>
-                <td style="vertical-align: top;">${detail[nombreDeProducto]}u</td>
-                <td style="vertical-align: top;">${nombreDeProducto}</td>
-            </tr>`
-        }
-
-        const mailOptions = {
-            from: 'Node.js Server',
-            to: config.ADMIN_EMAIL,
-            subject: `New Order ${user.name} - ${user.email}`,
-            html: `
-                <h1 style="color: lightskyblue;">New Order !</h1>
-    
-                <h3>DETAILS: </h3>
-                <hr />
-                
-                <table style="width:100%">
-                    <tr>
-                        <th style="width:20%">Units</th>
-                        <th style="width:80%">Product</th>
-                    </tr>
-                    ${detailText}
-                </table>
-            `
-        }
-        
-        NodeMailer.send(mailOptions, "send_NewOrder()");
-    } */
 }
 
 module.exports = { NodeMailer }
