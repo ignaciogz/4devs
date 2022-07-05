@@ -3,6 +3,8 @@ const { args, DB, config } = require('./config');
 const express = require("express");
 const { Server: HttpServer } = require('http');
 
+const morgan = require('morgan');
+
 // ↓ ****** CORS ****** ↓
 let cors = require("cors");
 
@@ -42,6 +44,7 @@ class Server {
 
     middleware() {
         this.app.use(cors('*'));
+        this.app.use(morgan('dev'));
 
         // ↓ ****** INICIO - GZIP ****** ↓
         this.app.use(gzip({

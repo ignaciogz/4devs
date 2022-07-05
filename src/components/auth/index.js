@@ -5,7 +5,7 @@ const router = express.Router();
 
 const { passportLocal } = require('./middlewares/passportLocalMw');
 const { uploadFile } = require('../../utils/multer');
-const { resizer } = require('../../utils/jimp');
+const { resizer } = require('../../utils/jimp/resizer');
 
 const resizeAvatarMw = resizer({ 
     width: 100,
@@ -25,17 +25,18 @@ module.exports = app => {
 
     router.get("/", authController.isLogged);
     
-    router.get("/error", authMw.isNotAuth, authController.error);
+    router.get("/error", authController.error);
+
+    router.get("/success", authController.success);
     
-    router.post("/login", passportLocal.authenticate("loginLocal", {successRedirect: "/", failureRedirect: "/api/auth/error"}));
+    router.post("/login", 
+        passportLocal.authenticate("loginLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error" })
+    );
     
-    router.post("/register", 
+    router.post("/register",
         uploadFileMw.single("avatar"),
         resizeAvatarMw,
-        passportLocal.authenticate("registerLocal", {failureRedirect: "/api/auth/register"}),
-        (req, res, next) => { 
-            res.json({success: true})
-        }
+        passportLocal.authenticate("registerLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error" })
     );
 
     router.get("/logout", authMw.isAuth, authController.logout);

@@ -5,7 +5,7 @@ const productsMw = require('./middlewares/productsMw');
 const router = express.Router();
 
 const { uploadFile } = require('../../utils/multer');
-const { resizer } = require('../../utils/jimp');
+const { resizer } = require('../../utils/jimp/resizer');
 
 const resizeProductImgMw = resizer({ 
     width: 342,

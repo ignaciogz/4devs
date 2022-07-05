@@ -10,7 +10,11 @@ class Auth {
     }
 
     error(req, res, next) {
-        res.json({ Error: "Error en autenticacion" });
+        res.json({ success: false })
+    }
+
+    success(req, res, next) { 
+        res.json({ success: true })
     }
 
     logout(req, res, next) {
