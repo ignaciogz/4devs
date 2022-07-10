@@ -10,10 +10,7 @@ class Users {
                 data: { user } 
             });
         } catch (error) {
-            res.json({ 
-                success: false,
-                error: { description: "Error into userController -> getUserData Mw" } 
-            });
+            console.log(error);
         }
     }
 
@@ -29,10 +26,7 @@ class Users {
                 }
             });
         } catch (error) {
-            res.json({ 
-                success: false,
-                error: { description: "Error into userController -> userExist Mw" } 
-            });
+            console.log(error);
         }
     }
 }

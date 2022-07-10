@@ -3,25 +3,43 @@ const authService = require('../services/authService');
 class Auth {
     isLogged(req, res, next) {
         if(req.isAuthenticated()) {
-            res.json({ isLogged: true });
+            res.json({ 
+                success: true,
+                data: {
+                    isLogged: true 
+                }
+            });
         } else {
-            res.json({ isLogged: false });
+            res.json({ 
+                success: true,
+                data: {
+                    isLogged: false
+                }
+            });
         }
     }
 
-    error(req, res, next) {
-        res.json({ success: false })
+    logout(req, res, next) {
+        req.session.destroy(err => {
+            if(err) console.log(error);
+            
+            res.json({ 
+                success: true,
+                data: {
+                    isLogged: false
+                }
+            });
+        });
     }
 
     success(req, res, next) { 
         res.json({ success: true })
     }
 
-    logout(req, res, next) {
-        req.session.destroy( err => {
-            if(err) res.send(JSON.stringify(err));
-            res.redirect("/");
-        });
+    error(req, res, next) {
+        const errorFn = req.flash('errorFn')
+        console.log("ERROR FLASH: ", errorFn)
+        res.json({ success: false })
     }
 }
 

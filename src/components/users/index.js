@@ -6,6 +6,7 @@ const router = express.Router();
 module.exports = app => {
     app.use('/api/users', router);
 
-    router.get("/", authMw.isAuth, usersController.getUserData);
+    //router.get("/", authMw.isAuth, usersController.getUserData);
+    router.get("/", usersController.getUserData);
     router.post("/check", usersController.userExist);
 }

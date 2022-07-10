@@ -19,9 +19,10 @@ const uploadFileMw = new uploadFile({
 });
 
 module.exports = app => {
-    app.use('/api/auth', router);
     app.use(passportLocal.initialize());
     app.use(passportLocal.session());
+    
+    app.use('/api/auth', router);
 
     router.get("/", authController.isLogged);
     
@@ -30,13 +31,13 @@ module.exports = app => {
     router.get("/success", authController.success);
     
     router.post("/login", 
-        passportLocal.authenticate("loginLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error" })
+        passportLocal.authenticate("loginLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error", failureFlash: true })
     );
     
     router.post("/register",
         uploadFileMw.single("avatar"),
         resizeAvatarMw,
-        passportLocal.authenticate("registerLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error" })
+        passportLocal.authenticate("registerLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error", failureFlash: true })
     );
 
     router.get("/logout", authMw.isAuth, authController.logout);

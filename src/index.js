@@ -3,20 +3,24 @@ const { args, DB, config } = require('./config');
 const express = require("express");
 const { Server: HttpServer } = require('http');
 
-const morgan = require('morgan');
-
 // ↓ ****** CORS ****** ↓
 let cors = require("cors");
 
 // ↓ ****** GZIP ****** ↓
 const gzip = require("compression");
 
-// ↓ ****** SESIONES ****** ↓
+// ↓ ****** HTTP LOGGER ****** ↓
+const morgan = require('morgan');
+
+// ↓ ****** FLASH MESSAGES ****** ↓
+const flash = require('connect-flash');
+
+// ↓ ****** SESSIONS ****** ↓
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-// ↓ ****** RUTAS ****** ↓
+// ↓ ****** ROUTES ****** ↓
 const serverRoutes = require('./routes');
 
 // ↓ ****** CUSTOM MIDDLEWARES ****** ↓
@@ -43,16 +47,30 @@ class Server {
     }
 
     middleware() {
-        this.app.use(cors('*'));
+        // ↓ ****** START - CORS ****** ↓
+        const whitelist = ['http://localhost:3000']
+        this.app.use(cors({
+            origin: function (origin, callback) {
+                if (whitelist.indexOf(origin) !== -1) {
+                  callback(null, true)
+                } else {
+                  callback(new Error('Not allowed by CORS'))
+                }
+            },
+            methods: "GET,HEAD,PATH,POST,PUT,DELETE",
+            credentials: true, // allow session cookie from browser to pass through
+        }));
+        // ↑ ****** END - CORS ****** ↑
+        
         this.app.use(morgan('dev'));
 
-        // ↓ ****** INICIO - GZIP ****** ↓
+        // ↓ ****** START - GZIP ****** ↓
         this.app.use(gzip({
             threshold: 0
         }));
-        // ↑ ****** FIN - GZIP ****** ↑
+        // ↑ ****** END - GZIP ****** ↑
 
-        // ↓ ****** INICIO - SESIONES ****** ↓
+        // ↓ ****** START - SESSIONS ****** ↓
         this.app.use(cookieParser());
         this.app.use(session({
             cookie: { maxAge: 600000 },
@@ -65,7 +83,9 @@ class Server {
                 mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true }
             })
         }));
-        // ↑ ****** FIN - SESIONES ****** ↑
+        // ↑ ****** END - SESSIONS ****** ↑
+
+        this.app.use(flash());
     }
 
     routes() {

@@ -33,7 +33,13 @@ class Auth {
         if(!req.isAuthenticated()) {
             next();
         } else {
-            res.redirect('datos');
+            res.json({
+                success: false,
+                error: {
+                    code: '-2',
+                    description: "Authenticated"
+                },
+            });
         }
     }
 }

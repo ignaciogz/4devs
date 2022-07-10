@@ -5,20 +5,20 @@ const notificationsService = require('../../notifications/services/notifications
 const usersService = require('../../users/services/usersService');
 
 class Auth {
-    async loginLocal(username, password, done) {
+    async loginLocal(req, username, password, done) {
         try {
             const user = await usersService.getByEmail(username);
-            
+
             if (!user) {
                 loggerWinston.error(`Error en login -> Passport: 'LOCAL' || Msj: Usuario con email '${username}' NO encontrado`);
-
-                return done(null, false);
+                
+                return done(null, false, req.flash('errorFn', 'login'));
             }
         
             if (!AuthTools.isValidPassword(user, password)) {
                 loggerWinston.error(`Contraseña invalida`);
-
-                return done(null, false);
+                
+                return done(null, false, req.flash('errorFn', 'login'));
             }
     
             return done(null, user);
@@ -31,9 +31,10 @@ class Auth {
         try {
             const email = username;
             const user = await usersService.getByEmail(email);
+
             if (user) {
                 loggerWinston.error(`Error en register -> Passport: 'LOCAL' || Msj: El usuario '${email}' ya existe !`);
-                return done(null, false);
+                return done(null, false, req.flash('errorFn', 'register'));
             }
             
             const newUser = {

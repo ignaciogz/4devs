@@ -23,7 +23,7 @@ class Users {
     getUserData(userLogged) {
         return { 
             email: userLogged.email,
-            nombre: userLogged.nombre,
+            name: userLogged.name,
             img: userLogged.img,
             role: userLogged.role
         }
