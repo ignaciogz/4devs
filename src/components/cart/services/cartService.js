@@ -18,8 +18,8 @@ class Cart {
     async create() {
         try {
             const newCart = await this.#initCart();
-
             const cartID = await this.storage.save(newCart);
+
             return cartID;
         } catch (error) {
             loggerWinston.error(`CartServices -> Ejecutando: 'create()' || Error: ${error.message}`)
@@ -29,6 +29,7 @@ class Cart {
     async getID(id) {
         try {
             const cart = await this.storage.getByID(id);
+            
             return cart;
         } catch (error) {
             loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)

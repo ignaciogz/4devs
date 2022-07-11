@@ -17,9 +17,12 @@ args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT"]);
 const config = {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PASS_APP: process.env.ADMIN_PASS_APP,
+    DEV: process.env.NODE_ENV !== "production" || true,
     SELECTED_STORAGE: process.env.STORAGE,
     SESSION_SECRET: process.env.SESSION_SECRET || "NO SUPER SECRET",
-    UPLOAD_FOLDER: process.env.UPLOAD_FOLDER
+    UPLOAD_FOLDER: process.env.UPLOAD_FOLDER,
+    CLIENT_REACT_DEV: process.env.REACT_APP_DEV,
+    CLIENT_REACT_PROD: process.env.REACT_APP_PROD 
 }
 
 const DB = {

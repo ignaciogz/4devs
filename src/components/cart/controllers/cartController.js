@@ -4,9 +4,9 @@ const mailer = require('../../../utils/notificators/mailer');
 
 class Cart {
     async getID(req, res, next) {
-        const { id } = req.params;
+        const { cartID } = req.user;
     
-        const cart = await cartService.getID(id);
+        const cart = await cartService.getID(id_cart);
         res.json({ cart });
     };
 
@@ -22,17 +22,12 @@ class Cart {
 
         res.json({});
     }
-    
-    async create(req, res, next) {
-        const id = await cartService.create();
-        res.json({ id });
-    };
 
     async add(req, res, next) {
-        const { id } = req.params;
+        const { id_cart } = req.user;
         const { id_prod } = req.body;
         
-        await cartService.add(id, id_prod);
+        await cartService.add(id_cart, id_prod);
         res.json({});
     };
     

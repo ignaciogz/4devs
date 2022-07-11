@@ -1,9 +1,9 @@
 const usersService = require('../services/usersService');
 
 class Users {
-    getUserData(req, res, next) {
+    getUserLogged(req, res, next) {
         try {
-            const user = usersService.getUserData(req.user);
+            const user = usersService.getUserLogged(req.user);
 
             res.json({ 
                 success: true,

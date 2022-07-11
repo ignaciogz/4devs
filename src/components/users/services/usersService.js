@@ -1,7 +1,10 @@
 const { usersDao } = require('../../../models/daos');
 
-const { config } = require('../../../config');
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
+const cartService = require('../../cart/services/cartService');
+const notificationsService = require('../../notifications/services/notificationsService');
+
+/* 
+const { errorLog: loggerWinston } = require("../../../utils/loggers/winston"); */
 
 class Users {
     constructor() {
@@ -14,19 +17,22 @@ class Users {
         return user;
     }
 
-    async add(newUser) {
-        //FALTA TRY CATCH
-        const userID = await this.storage.save(newUser);
-        return userID;
-    }
-
-    getUserData(userLogged) {
+    getUserLogged(userLogged) {
         return { 
             email: userLogged.email,
             name: userLogged.name,
             img: userLogged.img,
             role: userLogged.role
         }
+    }
+
+    async add(newUser) {
+        //FALTA TRY CATCH
+        notificationsService.notify_NewRegister(newUser);
+        newUser.id_cart = await cartService.create();
+    
+        const userID = await this.storage.save(newUser);
+        return userID;
     }
 
     async userExist(email) {

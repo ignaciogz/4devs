@@ -1,19 +1,18 @@
 const express = require('express');
 const cartController = require('./controllers/cartController');
+const authMw = require('../auth/middlewares/authMw');
 const router = express.Router();
 
 module.exports = app => {
-    app.use('/api/carrito', router);
+    app.use('/api/cart', router);
 
-    router.get('/:id/productos', cartController.getID);
+    router.get('/', authMw.isAuth, cartController.getID);
     
-    router.post('/', cartController.create);
-    
-    router.post('/:id/productos', cartController.add);
+    router.post('/', authMw.isAuth, cartController.add);
 
-    router.post('/:id/checkout', cartController.checkout);
+    router.post('/checkout', authMw.isAuth, cartController.checkout);
     
-    router.delete('/:id', cartController.delete);
+    router.delete('/', authMw.isAuth, cartController.delete);
     
-    router.delete('/:id/productos/:id_prod', cartController.deleteProduct);
+    router.delete('/:id_prod', authMw.isAuth, cartController.deleteProduct);
 }

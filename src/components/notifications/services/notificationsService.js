@@ -1,3 +1,4 @@
+const { config } = require('../../../config');
 const { NodeMailer } = require('../../../utils/notificators/mailer');
 
 class Notifications {

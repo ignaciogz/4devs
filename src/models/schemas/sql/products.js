@@ -1,11 +1,12 @@
 const productsSchema = (table) => {
     table.increments("id").primary(),
-    table.string("nombre"),
-    table.float("precio"),
-    table.string("foto"),
+    table.integer("category"),
+    table.string("name"),
+    table.float("price"),
+    table.string("description"),
+    table.string("img"),
+    table.float("rating"),
     table.integer("stock"),
-    table.string("codigo"),
-    table.string("descripcion"),
     table.string("timestamp")
 };
 

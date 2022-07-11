@@ -48,17 +48,18 @@ class Server {
 
     middleware() {
         // ↓ ****** START - CORS ****** ↓
-        const whitelist = ['http://localhost:3000']
+        const whitelist = config.DEV ? [config.CLIENT_REACT_DEV] : [config.CLIENT_REACT_PROD];
+
         this.app.use(cors({
             origin: function (origin, callback) {
-                if (whitelist.indexOf(origin) !== -1) {
+                if (whitelist.indexOf(origin) !== -1 || !origin) {
                   callback(null, true)
                 } else {
                   callback(new Error('Not allowed by CORS'))
                 }
             },
-            methods: "GET,HEAD,PATH,POST,PUT,DELETE",
             credentials: true, // allow session cookie from browser to pass through
+            methods: "GET,POST,PUT,DELETE",
         }));
         // ↑ ****** END - CORS ****** ↑
         

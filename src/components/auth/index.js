@@ -10,12 +10,12 @@ const { resizer } = require('../../utils/jimp/resizer');
 const resizeAvatarMw = resizer({ 
     width: 100,
     height: 100,
-    fileNameProp: "username",
+    fileNameProp: "email",
     folder: "avatars"
 });
 
 const uploadFileMw = new uploadFile({
-    fileNameProp: "username",
+    fileNameProp: "email",
 });
 
 module.exports = app => {
