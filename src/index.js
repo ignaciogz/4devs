@@ -74,7 +74,7 @@ class Server {
         // ↓ ****** START - SESSIONS ****** ↓
         this.app.use(cookieParser());
         this.app.use(session({
-            cookie: { maxAge: 600000 },
+            cookie: { maxAge: config.DEV ? 3600000 : 600000 },
             resave: false,
             rolling: true,
             saveUninitialized: false,

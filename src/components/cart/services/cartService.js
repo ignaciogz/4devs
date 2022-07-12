@@ -26,6 +26,26 @@ class Cart {
         }
     }
 
+    async getDetail(id) {
+        try {
+            const cart = await this.storage.getByID(id);
+            let detail = []
+
+            for (const item of cart.items) {
+                let product = await productsService.getID(item.id);
+                
+                detail.push({
+                    product,
+                    qty: item.qty
+                });
+            }
+
+            return detail;
+        } catch (error) {
+            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
+        }
+    }
+
     async getID(id) {
         try {
             const cart = await this.storage.getByID(id);
@@ -84,7 +104,7 @@ class Cart {
         }
     }
 
-    getDetail(cart) {
+    /* getDetail(cart) {
         let detail = {};
 
         for(let i=0; i < cart.items.length; i++) {
@@ -93,7 +113,7 @@ class Cart {
         }
 
         return detail;
-    }
+    } */
 
     async #update(id, modifiedCart) {
         try {

@@ -3,6 +3,17 @@ const cartService = require('../services/cartService');
 const mailer = require('../../../utils/notificators/mailer');
 
 class Cart {
+    async getDetail(req, res, next) {
+        const { id_cart } = req.user;
+    
+        const detail = await cartService.getDetail(id_cart);
+
+        res.json({
+            success: true,
+            data: { detail }
+        });
+    };
+
     async getID(req, res, next) {
         const { id_cart } = req.user;
     
