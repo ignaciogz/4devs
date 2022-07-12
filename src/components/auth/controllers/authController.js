@@ -13,14 +13,14 @@ class Auth {
     }
 
     logout(req, res, next) {
+        req.logout();
         req.session.destroy(err => {
             if(err) console.log(error);
             
+            res.clearCookie('connect.sid');
+
             res.json({ 
-                success: true,
-                data: {
-                    isLogged: false
-                }
+                success: true
             });
         });
     }

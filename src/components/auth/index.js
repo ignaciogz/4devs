@@ -26,19 +26,21 @@ module.exports = app => {
 
     router.get("/", authController.isLogged);
     
-    router.get("/error", authController.error);
-
-    router.get("/success", authController.success);
+    router.get("/error", authMw.isNotAuth, authController.error);
     
     router.post("/login", 
+        authMw.isNotAuth,
         passportLocal.authenticate("loginLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error", failureFlash: true })
     );
+
+    router.get("/logout", authMw.isAuth, authController.logout);
     
     router.post("/register",
+        authMw.isNotAuth,
         uploadFileMw.single("avatar"),
         resizeAvatarMw,
         passportLocal.authenticate("registerLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error", failureFlash: true })
     );
 
-    router.get("/logout", authMw.isAuth, authController.logout);
+    router.get("/success", authMw.isAuth, authController.success);
 }
