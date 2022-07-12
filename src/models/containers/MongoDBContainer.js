@@ -28,7 +28,7 @@ class MongoDBContainer {
 
     async getByID(id) {
         try {
-            const result = await this.model.find({id}).limit(1);
+            const result = await this.model.find({id}, {"_id":0}).limit(1);
             return result.shift();
         } catch (error) {
             console.log("Error getById() ", error);
@@ -37,7 +37,7 @@ class MongoDBContainer {
 
     async getAll() {
         try {
-            const result = await this.model.find({});
+            const result = await this.model.find({}, {"_id":0});
             return result;
         } catch (error) {
             console.log("Error getAll() ", error);

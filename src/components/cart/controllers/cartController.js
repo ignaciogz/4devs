@@ -7,7 +7,11 @@ class Cart {
         const { cartID } = req.user;
     
         const cart = await cartService.getID(id_cart);
-        res.json({ cart });
+
+        res.json({ 
+            success: true,
+            data: { cart } 
+        });
     };
 
     async checkout(req, res, next) {
@@ -25,10 +29,14 @@ class Cart {
 
     async add(req, res, next) {
         const { id_cart } = req.user;
-        const { id_prod } = req.body;
+        const { id_prod, qty } = req.body;
         
-        await cartService.add(id_cart, id_prod);
-        res.json({});
+        const cart = await cartService.add(id_cart, id_prod, qty);
+        
+        res.json({ 
+            success: true,
+            data: { cart } 
+        });
     };
     
     async delete(req, res, next) {

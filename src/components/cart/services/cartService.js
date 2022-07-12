@@ -36,15 +36,28 @@ class Cart {
         }
     }
 
-    async add(id, id_prod) {
+    async add(id, id_prod, qty) {
         try {
             const cart = await this.getID(id);
-            const item = await productsService.getID(id_prod);
-        
-            item.timestamp = TimeTools.getTimestamp();
-            cart.items.push(item);
+            const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
+            
+            if(itemIndex !== -1) {
+                let itemToUpdate = cart.items[itemIndex];
+                itemToUpdate.qty += qty;
+
+                cart.items.splice(itemIndex, 1, itemToUpdate);
+            } else {
+                const item = {
+                    id: id_prod,
+                    qty
+                }
+
+                cart.items.push(item);
+            }
 
             await this.#update(id, cart);
+
+            return cart;
         } catch (error) {
             loggerWinston.error(`CartServices -> Ejecutando: 'add()' || Error: ${error.message}`)
         }

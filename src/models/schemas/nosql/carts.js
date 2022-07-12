@@ -4,7 +4,7 @@ const cartsSchema = {
     items: [
         {
             id: { type: Number, required: true },
-            timestamp: { type: String, required: true }
+            qty: { type: Number, required: true },
         }
     ],
 };

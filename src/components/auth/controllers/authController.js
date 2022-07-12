@@ -2,21 +2,14 @@ const authService = require('../services/authService');
 
 class Auth {
     isLogged(req, res, next) {
-        if(req.isAuthenticated()) {
-            res.json({ 
-                success: true,
-                data: {
-                    isLogged: true 
-                }
-            });
-        } else {
-            res.json({ 
-                success: true,
-                data: {
-                    isLogged: false
-                }
-            });
-        }
+        const isLogged = req.isAuthenticated()
+
+        res.json({ 
+            success: true,
+            data: {
+                isLogged
+            }
+        });
     }
 
     logout(req, res, next) {

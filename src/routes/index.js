@@ -5,7 +5,7 @@ const usersAPI = require('../components/users');
 
 module.exports = app => {
     authAPI(app);
-    //cartAPI(app);
+    cartAPI(app);
     productsAPI(app);
     usersAPI(app);
     
