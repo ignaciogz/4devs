@@ -3,6 +3,7 @@ const productsService = require('../services/productsService');
 class Products {
     async getAll(req, res, next) {
         const products = await productsService.getAll();
+
         res.json({ 
             success: true,
             data: { products } 
@@ -11,8 +12,9 @@ class Products {
 
     async getID(req, res, next) {
         const { id } = req.params;
-    
+
         const product = await productsService.getID(id);
+
         res.json({ 
             success: true,
             data: { product } 
@@ -23,6 +25,7 @@ class Products {
         const newProduct = req.body;
     
         const id = await productsService.add(newProduct);
+
         res.json({ 
             success: true,
             data: { id } 
@@ -34,6 +37,7 @@ class Products {
         const modifiedProduct = req.body;
         
         await productsService.update(parseInt(id), modifiedProduct);
+
         res.json({ 
             success: true
         });
@@ -43,6 +47,7 @@ class Products {
         const { id } = req.params;
         
         await productsService.delete(id);
+        
         res.json({ 
             success: true
         });

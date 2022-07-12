@@ -4,13 +4,13 @@ const mailer = require('../../../utils/notificators/mailer');
 
 class Cart {
     async getID(req, res, next) {
-        const { cartID } = req.user;
+        const { id_cart } = req.user;
     
         const cart = await cartService.getID(id_cart);
 
         res.json({ 
             success: true,
-            data: { cart } 
+            data: { cart: cart.items } 
         });
     };
 
@@ -35,7 +35,7 @@ class Cart {
         
         res.json({ 
             success: true,
-            data: { cart } 
+            data: { cart: cart.items } 
         });
     };
     
