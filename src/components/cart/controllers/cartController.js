@@ -30,9 +30,22 @@ class Cart {
 
     async add(req, res, next) {
         const { id_cart } = req.user;
-        const { id_prod, qty } = req.body;
+        const { id_prod } = req.params;
+        const { qty } = req.body;
         
         await cartService.add(id_cart, id_prod, qty);
+        
+        res.json({ 
+            success: true
+        });
+    };
+
+    async update(req, res, next) {
+        const { id_cart } = req.user;
+        const { id_prod } = req.params;
+        const { qty } = req.body;
+        
+        const result = await cartService.update(id_cart, id_prod, qty);
         
         res.json({ 
             success: true
@@ -41,16 +54,9 @@ class Cart {
     
     async delete(req, res, next) {
         const { id_cart } = req.user;
-        
-        await cartService.delete(id_cart);
-        res.json({});
-    };
-
-    async deleteProduct(req, res, next) {
-        const { id_cart } = req.user;
         const { id_prod } = req.params;
 
-        await cartService.deleteProduct(id_cart, id_prod);
+        await cartService.delete(id_cart, id_prod);
 
         res.json({ 
             success: true,

@@ -1,6 +1,7 @@
 const express = require('express');
 const cartController = require('./controllers/cartController');
 const authMw = require('../auth/middlewares/authMw');
+const cartMw = require('./middlewares/cartMw');
 const router = express.Router();
 
 module.exports = app => {
@@ -8,11 +9,11 @@ module.exports = app => {
 
     router.get('/', authMw.isAuth, cartController.getID);
     
-    router.post('/', authMw.isAuth, cartController.add);
+    router.post('/:id_prod', authMw.isAuth, cartMw.verifyAddAndUpdate, cartController.add);
 
     router.post('/checkout', authMw.isAuth, cartController.checkout);
+
+    router.put('/:id_prod', authMw.isAuth, cartMw.verifyAddAndUpdate, cartController.update);
     
-    router.delete('/', authMw.isAuth, cartController.delete);
-    
-    router.delete('/:id_prod', authMw.isAuth, cartController.deleteProduct);
+    router.delete('/:id_prod', authMw.isAuth, cartController.delete);
 }

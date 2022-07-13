@@ -50,6 +50,16 @@ class Products {
         }
     }
 
+    async checkStock(id, qty) {
+        try {
+            let product = await this.getID(id);
+            
+            return product.stock >= qty;
+        } catch (error) {
+            loggerWinston.error(`ProductsServices -> Ejecutando: 'checkStock()' || Error: ${error.message}`)
+        }
+    }
+
     async productIDExist(id) {
         try {
             const exist = await this.storage.elementExist(id);

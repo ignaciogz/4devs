@@ -8,7 +8,7 @@ class Auth {
                 error: {
                     code: '-2',
                     description: `path: '${req.path}' method: '${method}' NOT authorized`
-                },
+                }
             });
         } else {
             next();
@@ -24,7 +24,7 @@ class Auth {
                 error: {
                     code: '-2',
                     description: "NOT authenticated"
-                },
+                }
             });
         }
     }
@@ -38,7 +38,7 @@ class Auth {
                 error: {
                     code: '-2',
                     description: "Authenticated"
-                },
+                }
             });
         }
     }

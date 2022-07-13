@@ -1,5 +1,5 @@
 const { cartsDao } = require('../../../models/daos');
-const { ArrayTools, TimeTools } = require('../../../utils/tools');
+const { ArrayTools } = require('../../../utils/tools');
 const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
 const productsService = require('../../products/services/productsService');
@@ -36,11 +36,30 @@ class Cart {
         }
     }
 
+    async getProductsDetails(cart) {
+        try {
+            let details = []
+
+            for (const item of cart.items) {
+                let product = await productsService.getID(item.id);
+                
+                details.push({
+                    product,
+                    qty: item.qty
+                });
+            }
+
+            return details;
+        } catch (error) {
+            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
+        }
+    }
+
     async add(id, id_prod, qty) {
         try {
             const cart = await this.getID(id);
             const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
-            
+
             if(itemIndex !== -1) {
                 let itemToUpdate = cart.items[itemIndex];
                 itemToUpdate.qty += qty;
@@ -61,15 +80,19 @@ class Cart {
         }
     }
 
-    async delete(id) {
-        try {
-            await this.storage.deleteById(id);
-        } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'delete()' || Error: ${error.message}`)
-        }
+    async update(id, id_prod, qty) {
+        const cart = await this.getID(id);
+        const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
+    
+        let itemToUpdate = cart.items[itemIndex];
+        itemToUpdate.qty = qty;
+    
+        cart.items.splice(itemIndex, 1, itemToUpdate);
+
+        await this.#update(id, cart);
     }
 
-    async deleteProduct(id, id_prod) {
+    async delete(id, id_prod) {
         try {
             const cart = await this.getID(id);
             
@@ -78,26 +101,7 @@ class Cart {
             
             await this.#update(id, cart);
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'deleteProduct()' || Error: ${error.message}`)
-        }
-    }
-
-    async getProductsDetails(cart) {
-        try {
-            let details = []
-
-            for (const item of cart.items) {
-                let product = await productsService.getID(item.id);
-                
-                details.push({
-                    product,
-                    qty: item.qty
-                });
-            }
-
-            return details;
-        } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
+            loggerWinston.error(`CartServices -> Ejecutando: 'delete()' || Error: ${error.message}`)
         }
     }
 
@@ -107,6 +111,21 @@ class Cart {
         } catch (error) {
             loggerWinston.error(`CartServices -> Ejecutando: '#update()' || Error: ${error.message}`)
         }       
+    }
+
+    async validateStock(id, id_prod, qty, method) {
+        if(method === "POST") {
+            const cart = await this.getID(id);
+            const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
+
+            if(itemIndex !== -1) {
+                const item = cart.items[itemIndex];
+
+                qty += item.qty;
+            }
+        }
+
+        return productsService.checkStock(id_prod, qty);
     }
 }
 
