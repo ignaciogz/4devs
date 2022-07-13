@@ -3,25 +3,15 @@ const cartService = require('../services/cartService');
 const mailer = require('../../../utils/notificators/mailer');
 
 class Cart {
-    async getDetail(req, res, next) {
-        const { id_cart } = req.user;
-    
-        const detail = await cartService.getDetail(id_cart);
-
-        res.json({
-            success: true,
-            data: { detail }
-        });
-    };
-
     async getID(req, res, next) {
         const { id_cart } = req.user;
     
         const cart = await cartService.getID(id_cart);
+        const cartWithProductsDetails = await cartService.getProductsDetails(cart);
 
         res.json({ 
             success: true,
-            data: { cart: cart.items } 
+            data: { cart: cartWithProductsDetails } 
         });
     };
 
@@ -42,26 +32,29 @@ class Cart {
         const { id_cart } = req.user;
         const { id_prod, qty } = req.body;
         
-        const cart = await cartService.add(id_cart, id_prod, qty);
+        await cartService.add(id_cart, id_prod, qty);
         
         res.json({ 
-            success: true,
-            data: { cart: cart.items } 
+            success: true
         });
     };
     
     async delete(req, res, next) {
-        const { id } = req.params;
+        const { id_cart } = req.user;
         
-        await cartService.delete(id);
+        await cartService.delete(id_cart);
         res.json({});
     };
 
     async deleteProduct(req, res, next) {
-        const { id, id_prod } = req.params;
-        
-        await cartService.deleteProduct(id, id_prod);
-        res.json({});
+        const { id_cart } = req.user;
+        const { id_prod } = req.params;
+
+        await cartService.deleteProduct(id_cart, id_prod);
+
+        res.json({ 
+            success: true,
+        });
     };
 }
 

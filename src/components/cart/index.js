@@ -7,8 +7,6 @@ module.exports = app => {
     app.use('/api/cart', router);
 
     router.get('/', authMw.isAuth, cartController.getID);
-
-    router.get('/detail', authMw.isAuth, cartController.getDetail);
     
     router.post('/', authMw.isAuth, cartController.add);
 

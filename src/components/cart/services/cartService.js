@@ -26,26 +26,6 @@ class Cart {
         }
     }
 
-    async getDetail(id) {
-        try {
-            const cart = await this.storage.getByID(id);
-            let detail = []
-
-            for (const item of cart.items) {
-                let product = await productsService.getID(item.id);
-                
-                detail.push({
-                    product,
-                    qty: item.qty
-                });
-            }
-
-            return detail;
-        } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
-        }
-    }
-
     async getID(id) {
         try {
             const cart = await this.storage.getByID(id);
@@ -76,8 +56,6 @@ class Cart {
             }
 
             await this.#update(id, cart);
-
-            return cart;
         } catch (error) {
             loggerWinston.error(`CartServices -> Ejecutando: 'add()' || Error: ${error.message}`)
         }
@@ -104,16 +82,24 @@ class Cart {
         }
     }
 
-    /* getDetail(cart) {
-        let detail = {};
+    async getProductsDetails(cart) {
+        try {
+            let details = []
 
-        for(let i=0; i < cart.items.length; i++) {
-            let nombreDeProducto = cart.items[i].nombre;
-            detail[nombreDeProducto] = detail.hasOwnProperty(nombreDeProducto) ? detail[nombreDeProducto] + 1 : 1;
+            for (const item of cart.items) {
+                let product = await productsService.getID(item.id);
+                
+                details.push({
+                    product,
+                    qty: item.qty
+                });
+            }
+
+            return details;
+        } catch (error) {
+            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
         }
-
-        return detail;
-    } */
+    }
 
     async #update(id, modifiedCart) {
         try {
