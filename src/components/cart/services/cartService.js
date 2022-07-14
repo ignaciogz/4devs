@@ -114,18 +114,28 @@ class Cart {
     }
 
     async validateStock(id, id_prod, qty, method) {
-        if(method === "POST") {
-            const cart = await this.getID(id);
-            const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
-
-            if(itemIndex !== -1) {
-                const item = cart.items[itemIndex];
-
-                qty += item.qty;
+        try {
+            if(method === "POST") {
+                const cart = await this.getID(id);
+                const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
+    
+                if(itemIndex !== -1) {
+                    const item = cart.items[itemIndex];
+    
+                    qty += item.qty;
+                }
             }
+    
+            const checkStock = await productsService.checkStock(id_prod, qty);
+    
+            if(!checkStock.isValid) {
+                await this.update(id, id_prod, checkStock.value);
+            }
+            
+            return checkStock;
+        } catch (error) {
+            loggerWinston.error(`CartServices -> Ejecutando: 'validateStock()' || Error: ${error.message}`)
         }
-
-        return productsService.checkStock(id_prod, qty);
     }
 }
 

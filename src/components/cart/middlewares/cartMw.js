@@ -7,14 +7,14 @@ class Cart {
         const { qty } = req.body;
         const method = req.method;
 
-        const qtyIsValid = cartValidator.validateQty(qty);
-        const stockIsValid = await cartValidator.validateStock(id_cart, id_prod, qty, method);
+        const checkQty = cartValidator.validateQty(qty);
+        const checkStock = await cartValidator.validateStock(id_cart, id_prod, qty, method);
         
-        if(qtyIsValid && stockIsValid) {
+        if(checkQty.isValid && checkStock.isValid) {
             next();
         }
         
-        if(!qtyIsValid) {
+        if(!checkQty.isValid) {
             res.json({
                 success: false,
                 error: {
@@ -24,12 +24,13 @@ class Cart {
             });
         }
         
-        if(!stockIsValid) {
+        if(!checkStock.isValid) {
             res.json({
                 success: false,
                 error: {
                     code: '-1',
-                    description: "Insufficient stock"
+                    description: "Insufficient stock",
+                    value: checkStock.value
                 }
             });
         }

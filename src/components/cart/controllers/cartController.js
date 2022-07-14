@@ -45,7 +45,7 @@ class Cart {
         const { id_prod } = req.params;
         const { qty } = req.body;
         
-        const result = await cartService.update(id_cart, id_prod, qty);
+        await cartService.update(id_cart, id_prod, qty);
         
         res.json({ 
             success: true

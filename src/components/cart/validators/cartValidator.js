@@ -2,7 +2,9 @@ const cartService = require('../services/cartService');
 
 class Cart {
     validateQty(qty) {
-        return qty > 0;
+        return {
+            isValid: qty > 0
+        }
     }
 
     async validateStock(id_cart, id_prod, qty, method) {

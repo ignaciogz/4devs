@@ -54,7 +54,10 @@ class Products {
         try {
             let product = await this.getID(id);
             
-            return product.stock >= qty;
+            return {
+                isValid: product.stock >= qty,
+                value: product.stock
+            }
         } catch (error) {
             loggerWinston.error(`ProductsServices -> Ejecutando: 'checkStock()' || Error: ${error.message}`)
         }
