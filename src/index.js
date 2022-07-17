@@ -2,6 +2,7 @@ const { args, DB, config } = require('./config');
 
 const express = require("express");
 const { Server: HttpServer } = require('http');
+const { Server: IOServer } = require('socket.io');
 
 // ↓ ****** CORS ****** ↓
 let cors = require("cors");
@@ -23,20 +24,30 @@ const MongoStore = require('connect-mongo');
 // ↓ ****** ROUTES ****** ↓
 const serverRoutes = require('./routes');
 
+// ↓ ****** SOCKETS ****** ↓
+const serverSockets = require('./utils/sockets');
+
 // ↓ ****** CUSTOM MIDDLEWARES ****** ↓
-const serverMw = require('./utils/middlewares/ServerMw');
+const serverMw = require('./utils/middlewares/serverMw');
 
 class Server {
     constructor() {
         this.app = express();
         this.httpServer = new HttpServer(this.app);
+        this.io = new IOServer(this.httpServer, {
+            cors: {
+                origin: "http://localhost:3000",
+                methods: ["GET", "POST"],
+                credentials: true
+            }
+        });
         this.port = args.PORT;
         this.mode = args.MODE;
         
         this.settings();
         this.middleware();
         this.routes();
-        //this.sockets();
+        this.sockets();
         this.middlewareError();
     }
 
@@ -72,8 +83,7 @@ class Server {
         // ↑ ****** END - GZIP ****** ↑
 
         // ↓ ****** START - SESSIONS ****** ↓
-        this.app.use(cookieParser());
-        this.app.use(session({
+        this.sessionMw = session({
             cookie: { maxAge: config.DEV ? 3600000 : 600000 },
             resave: false,
             rolling: true,
@@ -83,7 +93,10 @@ class Server {
                 mongoUrl: DB.mongoDB.atlas_uri,
                 mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true }
             })
-        }));
+        });
+
+        this.app.use(cookieParser());
+        this.app.use(this.sessionMw);
         // ↑ ****** END - SESSIONS ****** ↑
 
         this.app.use(flash());
@@ -91,6 +104,10 @@ class Server {
 
     routes() {
         serverRoutes(this.app);
+    }
+
+    sockets() {
+        serverSockets(this.io, this.sessionMw);
     }
 
     middlewareError() {
