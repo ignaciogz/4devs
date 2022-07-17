@@ -7,6 +7,7 @@ const productsSchema = {
 	img: { type: String, required: true },
 	rating: { type: Number, required: true },
 	stock: { type: Number, required: true },
+	brand: { type: Number, required: true },
 	timestamp: { type: String, required: true }
 };
 

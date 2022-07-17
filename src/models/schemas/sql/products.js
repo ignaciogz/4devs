@@ -7,6 +7,7 @@ const productsSchema = (table) => {
     table.string("img"),
     table.float("rating"),
     table.integer("stock"),
+    table.integer("brand"),
     table.string("timestamp")
 };
 

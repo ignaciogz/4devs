@@ -1,6 +1,9 @@
 const { productsDao } = require('../../../models/daos');
 const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
+const brandsService = require('../../brands/services/brandsService');
+const categoriesService = require('../../categories/services/categoriesService');
+
 class Products {
     constructor() {
         this.storage = productsDao;
@@ -9,7 +12,7 @@ class Products {
     async getAll() {
         try {
             const products = await this.storage.getAll();
-            return products;    
+            return products;
         } catch (error) {
             loggerWinston.error(`ProductsServices -> Ejecutando: 'getAll()' || Error: ${error.message}`)
         }
@@ -18,7 +21,7 @@ class Products {
     async getID(id) {
         try {
             const product = await this.storage.getByID(id);
-            return product;    
+            return product;
         } catch (error) {
             loggerWinston.error(`ProductsServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
         }

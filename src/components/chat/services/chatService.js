@@ -14,7 +14,7 @@ class Chat {
             const messages = await this.storage.getAll();
             
             for (let message of messages) {
-                const userLogged = await usersService.getByEmail(message.author.email);
+                let userLogged = await usersService.getByEmail(message.author.email);
                 
                 let { name, img } = userLogged;
                 message.author = {
