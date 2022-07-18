@@ -7,8 +7,8 @@ class Cart {
         }
     }
 
-    async validateStock(id_cart, id_prod, qty, method) {
-        return await cartService.validateStock(id_cart, id_prod, qty, method); 
+    async validateStock(id_cart, id_prod, qty, method, addMaxAvailable) {
+        return await cartService.validateStock(id_cart, id_prod, qty, method, addMaxAvailable); 
     }
 }
 

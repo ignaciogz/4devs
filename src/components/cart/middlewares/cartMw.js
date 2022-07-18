@@ -4,11 +4,11 @@ class Cart {
     async verifyAddAndUpdate(req, res, next) {
         const { id_cart } = req.user;
         const { id_prod } = req.params;
-        const { qty } = req.body;
+        const { qty, addMaxAvailable } = req.body;
         const method = req.method;
 
         const checkQty = cartValidator.validateQty(qty);
-        const checkStock = await cartValidator.validateStock(id_cart, id_prod, qty, method);
+        const checkStock = await cartValidator.validateStock(id_cart, id_prod, qty, method, addMaxAvailable);
         
         if(checkQty.isValid && checkStock.isValid) {
             next();

@@ -113,7 +113,7 @@ class Cart {
         }       
     }
 
-    async validateStock(id, id_prod, qty, method) {
+    async validateStock(id, id_prod, qty, method, addMaxAvailable) {
         try {
             if(method === "POST") {
                 const cart = await this.getID(id);
@@ -128,7 +128,7 @@ class Cart {
     
             const checkStock = await productsService.checkStock(id_prod, qty);
     
-            if(!checkStock.isValid) {
+            if(!checkStock.isValid && addMaxAvailable) {
                 await this.update(id, id_prod, checkStock.value);
             }
             
