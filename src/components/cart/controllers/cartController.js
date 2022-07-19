@@ -1,7 +1,5 @@
 const cartService = require('../services/cartService');
 
-const mailer = require('../../../utils/notificators/mailer');
-
 class Cart {
     async getID(req, res, next) {
         const { id_cart } = req.user;
@@ -16,16 +14,15 @@ class Cart {
     };
 
     async checkout(req, res, next) {
-        const { id } = req.params;
+        const { email, name, id_cart } = req.user;
+        const client = { email, name }
         
-        const cart = await cartService.getID(id);
-        const detail = cartService.getDetail(cart);
-        
-        mailer.send_NewOrder(req.user, detail);
+        const id_order = await cartService.checkout(id_cart, client);
 
-        await cartService.delete(id);
-
-        res.json({});
+        res.json({ 
+            success: true,
+            data: { id: id_order }
+        });
     }
 
     async add(req, res, next) {

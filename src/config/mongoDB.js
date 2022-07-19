@@ -1,11 +1,10 @@
 const { DB } = require('./');
 const mongoose = require("mongoose");
 
-const MONGO_LOCAL_URI = DB.mongoDB.uri;
-const MONGO_ATLAS_URI = DB.mongoDB.atlas_uri;
+const MONGO_URI = DB.mongoDB.atlas_uri ? DB.mongoDB.atlas_uri : DB.mongoDB.local_uri;
 
 (async () => {
-    mongoose.connect(MONGO_ATLAS_URI, {
+    mongoose.connect(MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true 
     })

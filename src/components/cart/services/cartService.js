@@ -2,6 +2,8 @@ const { cartsDao } = require('../../../models/daos');
 const { ArrayTools } = require('../../../utils/tools');
 const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
+const ordersService = require('../../orders/services/ordersService');
+const notificationsService = require('../../notifications/services/notificationsService');
 const productsService = require('../../products/services/productsService');
 
 class Cart {
@@ -105,9 +107,30 @@ class Cart {
         }
     }
 
-    async #update(id, modifiedCart) {
+    async clean(id, cart) {
         try {
-            await this.storage.update(id, modifiedCart);
+            cart.items = [];
+            
+            await this.#update(id, cart);
+        } catch (error) {
+            loggerWinston.error(`CartServices -> Ejecutando: 'clean()' || Error: ${error.message}`)
+        }
+    }
+
+    async checkout(id, client) {
+        const cart = await this.getID(id);
+        const id_order = await ordersService.create(client);
+        const order = await ordersService.addAll(id_order, cart);
+        await this.clean(id, cart);
+
+        notificationsService.notify_NewOrder(order);
+
+        return id_order;
+    }
+
+    async #update(id, modifiedCard) {
+        try {
+            await this.storage.update(id, modifiedCard);
         } catch (error) {
             loggerWinston.error(`CartServices -> Ejecutando: '#update()' || Error: ${error.message}`)
         }       

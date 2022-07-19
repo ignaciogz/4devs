@@ -8,10 +8,10 @@ module.exports = app => {
     app.use('/api/cart', router);
 
     router.get('/', authMw.isAuth, cartController.getID);
+
+    router.get('/checkout', authMw.isAuth, cartController.checkout);
     
     router.post('/:id_prod', authMw.isAuth, cartMw.verifyAddAndUpdate, cartController.add);
-
-    router.post('/checkout', authMw.isAuth, cartController.checkout);
 
     router.put('/:id_prod', authMw.isAuth, cartMw.verifyAddAndUpdate, cartController.update);
     

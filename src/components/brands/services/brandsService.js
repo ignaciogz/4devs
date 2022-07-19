@@ -11,7 +11,16 @@ class Brands {
             const brands = await this.storage.getAll();
             return brands;
         } catch (error) {
-            loggerWinston.error(`BrandsServices -> Ejecutando: 'getAll()' || Error: ${error.message}`)
+            loggerWinston.error(`BrandsService -> Ejecutando: 'getAll()' || Error: ${error.message}`)
+        }
+    }
+
+    async getID(id) {
+        try {
+            const brand = await this.storage.getByID(id);
+            return brand;
+        } catch (error) {
+            loggerWinston.error(`BrandsService -> Ejecutando: 'getID()' || Error: ${error.message}`)
         }
     }
 }

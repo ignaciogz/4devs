@@ -28,7 +28,7 @@ class Products {
 
         res.json({ 
             success: true,
-            data: { id } 
+            data: { id }
         });
     };
     

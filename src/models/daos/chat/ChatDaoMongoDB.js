@@ -18,7 +18,7 @@ class ChatDaoMongoDB extends MongoDBContainer {
 
             return dtos;
         } catch (error) {
-            console.log("Error getAll() on CartsDaoMongoDB", error);
+            console.log("Error getAll() on ChatDaoMongoDB", error);
         }
     }
 

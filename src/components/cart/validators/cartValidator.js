@@ -10,6 +10,10 @@ class Cart {
     async validateStock(id_cart, id_prod, qty, method, addMaxAvailable) {
         return await cartService.validateStock(id_cart, id_prod, qty, method, addMaxAvailable); 
     }
+
+    async validateStockOfAll(id_cart, id_prod, qty, method, addMaxAvailable) {
+        return await cartService.validateStock(id_cart, id_prod, qty, method, addMaxAvailable); 
+    }
 }
 
 module.exports = new Cart();

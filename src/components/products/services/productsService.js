@@ -1,9 +1,6 @@
 const { productsDao } = require('../../../models/daos');
 const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
-const brandsService = require('../../brands/services/brandsService');
-const categoriesService = require('../../categories/services/categoriesService');
-
 class Products {
     constructor() {
         this.storage = productsDao;
@@ -14,7 +11,7 @@ class Products {
             const products = await this.storage.getAll();
             return products;
         } catch (error) {
-            loggerWinston.error(`ProductsServices -> Ejecutando: 'getAll()' || Error: ${error.message}`)
+            loggerWinston.error(`ProductsService -> Ejecutando: 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -23,7 +20,7 @@ class Products {
             const product = await this.storage.getByID(id);
             return product;
         } catch (error) {
-            loggerWinston.error(`ProductsServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
+            loggerWinston.error(`ProductsService -> Ejecutando: 'getID()' || Error: ${error.message}`)
         }
     }
 
@@ -33,7 +30,7 @@ class Products {
             const productID = await this.storage.save(newProduct);
             return productID;
         } catch (error) {
-            loggerWinston.error(`ProductsServices -> Ejecutando: 'add()' || Error: ${error.message}`)
+            loggerWinston.error(`ProductsService -> Ejecutando: 'add()' || Error: ${error.message}`)
         }
     }
 
@@ -41,7 +38,7 @@ class Products {
         try {
             await this.storage.update(id, modifiedProduct);    
         } catch (error) {
-            loggerWinston.error(`ProductsServices -> Ejecutando: 'update()' || Error: ${error.message}`)
+            loggerWinston.error(`ProductsService -> Ejecutando: 'update()' || Error: ${error.message}`)
         }
     }
 
@@ -49,7 +46,7 @@ class Products {
         try {
             await this.storage.deleteById(id);    
         } catch (error) {
-            loggerWinston.error(`ProductsServices -> Ejecutando: 'delete()' || Error: ${error.message}`)
+            loggerWinston.error(`ProductsService -> Ejecutando: 'delete()' || Error: ${error.message}`)
         }
     }
 
@@ -62,7 +59,7 @@ class Products {
                 value: product.stock
             }
         } catch (error) {
-            loggerWinston.error(`ProductsServices -> Ejecutando: 'checkStock()' || Error: ${error.message}`)
+            loggerWinston.error(`ProductsService -> Ejecutando: 'checkStock()' || Error: ${error.message}`)
         }
     }
 
@@ -71,7 +68,7 @@ class Products {
             const exist = await this.storage.elementExist(id);
             return exist;   
         } catch (error) {
-            loggerWinston.error(`ProductsServices -> Ejecutando: 'productIDExist()' || Error: ${error.message}`)
+            loggerWinston.error(`ProductsService -> Ejecutando: 'productIDExist()' || Error: ${error.message}`)
         }
     }
 }

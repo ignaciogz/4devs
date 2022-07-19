@@ -32,7 +32,7 @@ const DB = {
             host: process.env.DB_HOST || "localhost",
             user: process.env.DB_USER || "root",
             password: process.env.DB_PASSWORD || "",
-            database: process.env.DB_NAME || "4devs",
+            database: process.env.DB_NAME || "4DEVS",
         },
         pool: {
             min: 0,
@@ -41,7 +41,7 @@ const DB = {
         useNullAsDefault: true
     },
     mongoDB: {
-        uri: `mongodb://${process.env.MONGO_DB_HOST || "localhost"}:${process.env.MONGO_DB_PORT || "27017"}/${process.env.MONGO_DB_NAME || "4devs"}`,
+        local_uri: `mongodb://${process.env.MONGO_DB_HOST || "localhost"}:${process.env.MONGO_DB_PORT || "27017"}/${process.env.MONGO_DB_NAME || "4DEVS"}`,
         atlas_uri: `${process.env.MONGO_ATLAS}` || ""
     }
 }

@@ -2,37 +2,46 @@ const { config } = require('../../../config');
 const { NodeMailer } = require('../../../utils/notificators/mailer');
 
 class Notifications {
-    send_NewOrder(user, detail) {
+    notify_NewOrder(order) {
         let detailText = "";
     
-        for (const nombreDeProducto in detail) {
+        for (const item of order.items) {
             detailText += `<tr>
-                <td style="vertical-align: top;">${detail[nombreDeProducto]}u</td>
-                <td style="vertical-align: top;">${nombreDeProducto}</td>
+                <td style="vertical-align: top;">${item.qty}u</td>
+                <td style="vertical-align: top;">${item.name}</td>
             </tr>`
         }
 
-        const mailOptions = {
+        const content = `
+            <h1 style="color: lightskyblue;">New Order !</h1>
+
+            <h3>DETAILS: </h3>
+            <hr />
+            
+            <table style="width:100%">
+                <tr>
+                    <th style="width:20%">Units</th>
+                    <th style="width:80%">Product</th>
+                </tr>
+                ${detailText}
+            </table>`;
+
+        const mailOptionsAdmin = {
             from: 'Node.js Server',
             to: config.ADMIN_EMAIL,
-            subject: `New Order ${user.name} - ${user.email}`,
-            html: `
-                <h1 style="color: lightskyblue;">New Order !</h1>
-    
-                <h3>DETAILS: </h3>
-                <hr />
-                
-                <table style="width:100%">
-                    <tr>
-                        <th style="width:20%">Units</th>
-                        <th style="width:80%">Product</th>
-                    </tr>
-                    ${detailText}
-                </table>
-            `
+            subject: `New Order ${order.client.name} - ${order.client.email}`,
+            html: content
+        }
+
+        const mailOptionsUser = {
+            from: 'Node.js Server',
+            to: order.client.email,
+            subject: `New Order ${order.client.name} - ${order.client.email}`,
+            html: content
         }
         
-        NodeMailer.send(mailOptions, "send_NewOrder()");
+        NodeMailer.send(mailOptionsAdmin, "send_NewOrder() - Admin");
+        NodeMailer.send(mailOptionsUser, "send_NewOrder() - User");
     }
     
     notify_NewRegister(newUser) {
@@ -58,7 +67,7 @@ class Notifications {
                     <th style="text-align:right; vertical-align: top;">Role:</th>
                     <td>${newUser.role}</td>
                 </tr>
-            </table>`
+            </table>`;
 
         const mailOptionsAdmin = {
             from: 'Node.js Server',

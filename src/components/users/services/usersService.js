@@ -1,10 +1,8 @@
 const { usersDao } = require('../../../models/daos');
+const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
 
 const cartService = require('../../cart/services/cartService');
 const notificationsService = require('../../notifications/services/notificationsService');
-
-/* 
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston"); */
 
 class Users {
     constructor() {
@@ -12,9 +10,12 @@ class Users {
     }
 
     async getByEmail(email) {
-        //FALTA TRY CATCH
-        const user = await this.storage.getByEmail(email);
-        return user;
+        try {
+            const user = await this.storage.getByEmail(email);
+            return user;
+        } catch (error) {
+            loggerWinston.error(`UsersService -> Ejecutando: 'getByEmail()' || Error: ${error.message}`)
+        }
     }
 
     getUserLogged(userLogged) {
@@ -27,20 +28,27 @@ class Users {
     }
 
     async add(newUser) {
-        //FALTA TRY CATCH
-        notificationsService.notify_NewRegister(newUser);
-        newUser.id_cart = await cartService.create();
-    
-        const userID = await this.storage.save(newUser);
-        return userID;
+        try {
+            newUser.id_cart = await cartService.create();
+            const userID = await this.storage.save(newUser);
+
+            notificationsService.notify_NewRegister(newUser);
+
+            return userID;
+        } catch (error) {
+            loggerWinston.error(`UsersService -> Ejecutando: 'add()' || Error: ${error.message}`)
+        }
     }
 
     async userExist(email) {
-        //FALTA TRY CATCH
-        const user = await this.getByEmail(email);
+        try {
+            const user = await this.getByEmail(email);
         
-        if(user) return true
-        return false
+            if(user) return true
+            return false
+        } catch (error) {
+            loggerWinston.error(`UsersService -> Ejecutando: 'userExist()' || Error: ${error.message}`)
+        }
     }
 }
 
