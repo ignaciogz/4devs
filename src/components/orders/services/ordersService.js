@@ -52,7 +52,7 @@ class Orders {
             const brand = await brandsService.getID(item.brand);
             const category = await categoriesService.getID(item.category);
             
-            item = ObjectTools.removeAllPropertiesExcept(item, ["id", "name", "price", "timestamp"]);
+            item = ObjectTools.removeAllPropertiesExcept(item, ["id", "name", "price", "img", "stock", "timestamp"]);
             item.brand = brand.name;
             item.category = category.name;
             item.qty = qty;
@@ -104,6 +104,24 @@ class Orders {
         } catch (error) {
             loggerWinston.error(`OrdersService -> Ejecutando: '#update()' || Error: ${error.message}`)
         }       
+    }
+
+    async getByEmail(email) {
+        try {
+            const user = await this.storage.getByEmail(email);
+            return user;
+        } catch (error) {
+            loggerWinston.error(`OrdersService -> Ejecutando: 'getByEmail()' || Error: ${error.message}`)
+        }
+    }
+
+    async orderIDExist(id) {
+        try {
+            const exist = await this.storage.elementExist(id);
+            return exist;   
+        } catch (error) {
+            loggerWinston.error(`OrdersService -> Ejecutando: 'orderIDExist()' || Error: ${error.message}`)
+        }
     }
 }
 
