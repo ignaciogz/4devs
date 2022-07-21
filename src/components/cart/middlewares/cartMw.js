@@ -1,7 +1,7 @@
 const cartValidator = require('../validators/cartValidator');
 
 class Cart {
-    async verifyAddAndUpdate(req, res, next) {
+    async verifyStock(req, res, next) {
         const { id_cart } = req.user;
         const { id_prod } = req.params;
         const { qty, addMaxAvailable } = req.body;
@@ -31,6 +31,27 @@ class Cart {
                     code: '-1',
                     description: "Insufficient stock",
                     value: checkStock.value
+                }
+            });
+        }
+    }
+
+    async verifyStocks(req, res, next) {
+        const { id_cart } = req.user;
+
+        const checkStocks = await cartValidator.validateStocks(id_cart);
+        
+        if(checkStocks.isValid) {
+            next();
+        }
+        
+        if(!checkStocks.isValid) {
+            res.json({
+                success: false,
+                error: {
+                    code: '-1',
+                    description: checkStocks.value.length == 1 ? "Insufficient stock of a product" : "Insufficient stock of some products",
+                    value: checkStocks.value
                 }
             });
         }

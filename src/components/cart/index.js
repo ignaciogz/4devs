@@ -9,11 +9,11 @@ module.exports = app => {
 
     router.get('/', authMw.isAuth, cartController.getID);
 
-    router.get('/checkout', authMw.isAuth, cartController.checkout);
+    router.get('/checkout', authMw.isAuth, cartMw.verifyStocks, cartController.checkout);
     
-    router.post('/:id_prod', authMw.isAuth, cartMw.verifyAddAndUpdate, cartController.add);
+    router.post('/:id_prod', authMw.isAuth, cartMw.verifyStock, cartController.add);
 
-    router.put('/:id_prod', authMw.isAuth, cartMw.verifyAddAndUpdate, cartController.update);
+    router.put('/:id_prod', authMw.isAuth, cartMw.verifyStock, cartController.update);
     
     router.delete('/:id_prod', authMw.isAuth, cartController.delete);
 }

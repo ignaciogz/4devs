@@ -151,13 +151,39 @@ class Cart {
     
             const checkStock = await productsService.checkStock(id_prod, qty);
     
-            if(!checkStock.isValid && addMaxAvailable) {
-                await this.update(id, id_prod, checkStock.value);
+            if(!checkStock.isValid) {
+                if(checkStock.value == 0) await this.delete(id, id_prod);
+                else if(addMaxAvailable) await this.update(id, id_prod, checkStock.value);
             }
             
             return checkStock;
         } catch (error) {
             loggerWinston.error(`CartServices -> Ejecutando: 'validateStock()' || Error: ${error.message}`)
+        }
+    }
+
+    async validateStocks(id) {
+        try {
+            const cart = await this.getID(id);
+            let checkStocks = [];
+
+            for (const item of cart.items) {
+                let checkStock = await productsService.checkStock(item.id, item.qty);
+
+                if(!checkStock.isValid) {
+                    if(checkStock.value == 0) await this.delete(id, item.id)
+                    else await this.update(id, item.id, checkStock.value)
+                }
+
+                checkStocks.push({ id_prod: item.id, ...checkStock });
+            }
+
+            return {
+                isValid: checkStocks.every(element => element.isValid),
+                value: checkStocks.filter(element => !element.isValid)
+            };
+        } catch (error) {
+            loggerWinston.error(`CartServices -> Ejecutando: 'validateStocks()' || Error: ${error.message}`)
         }
     }
 }
