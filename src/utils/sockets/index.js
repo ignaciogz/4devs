@@ -1,6 +1,6 @@
 const { chatSchema } = require("../../models/schemas/normalize/chat");
 const { NormalizeTools } = require("../tools");
-const { errorLog: loggerWinston } = require("../loggers/winston");
+const loggerWinston = require("../logger");
 
 const socketsMw = require('../middlewares/socketsMw');
 const chatService = require('../../components/chat/services/chatService');

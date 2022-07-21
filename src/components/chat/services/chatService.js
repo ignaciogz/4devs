@@ -1,5 +1,5 @@
 const { chatDao } = require('../../../models/daos');
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
+const loggerWinston = require("../../../utils/logger");
 
 const usersService = require('../../users/services/usersService');
 

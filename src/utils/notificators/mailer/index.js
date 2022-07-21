@@ -1,6 +1,6 @@
-const { config } = require('../../../config/index');
+const { config } = require('../../../config');
 const { createTransport } = require('nodemailer');
-const { errorLog: loggerWinston } = require("../../loggers/winston");
+const loggerWinston = require("../../logger");
 
 class NodeMailer {
     static transporter = createTransport({

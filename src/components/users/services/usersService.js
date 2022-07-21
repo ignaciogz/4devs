@@ -1,5 +1,5 @@
 const { usersDao } = require('../../../models/daos');
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
+const loggerWinston = require("../../../utils/logger");
 
 const cartService = require('../../cart/services/cartService');
 const notificationsService = require('../../notifications/services/notificationsService');

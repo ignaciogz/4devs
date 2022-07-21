@@ -1,6 +1,6 @@
 const { cartsDao } = require('../../../models/daos');
 const { ArrayTools } = require('../../../utils/tools');
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
+const loggerWinston = require("../../../utils/logger");
 
 const ordersService = require('../../orders/services/ordersService');
 const notificationsService = require('../../notifications/services/notificationsService');

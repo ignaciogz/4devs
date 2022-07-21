@@ -1,6 +1,6 @@
 const { ordersDao } = require('../../../models/daos');
 const { ObjectTools } = require('../../../utils/tools');
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
+const loggerWinston = require("../../../utils/logger");
 
 const brandsService = require('../../brands/services/brandsService');
 const categoriesService = require('../../categories/services/categoriesService');

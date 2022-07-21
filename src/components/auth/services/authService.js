@@ -1,5 +1,5 @@
 const { AuthTools } = require("../../../utils/tools");
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
+const loggerWinston = require("../../../utils/logger");
 
 const usersService = require('../../users/services/usersService');
 
@@ -22,7 +22,7 @@ class Auth {
     
             return done(null, user);
         } catch (error) {
-            loggerWinston.error(`Passport Local -> Ejecutando: 'Login LocalStrategy' || Error: ${error.message}`)
+            loggerWinston.warn(`Passport Local -> Ejecutando: 'Login LocalStrategy' || Error: ${error.message}`)
         }
     }
 

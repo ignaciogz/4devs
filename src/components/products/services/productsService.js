@@ -1,5 +1,5 @@
 const { productsDao } = require('../../../models/daos');
-const { errorLog: loggerWinston } = require("../../../utils/loggers/winston");
+const loggerWinston = require("../../../utils/logger");
 
 class Products {
     constructor() {

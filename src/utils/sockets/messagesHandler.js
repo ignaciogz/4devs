@@ -1,4 +1,4 @@
-const { errorLog: loggerWinston } = require("../loggers/winston");
+const loggerWinston = require("../logger");
 
 const chatService = require('../../components/chat/services/chatService');
 
