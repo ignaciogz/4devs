@@ -1,5 +1,6 @@
 const { DB } = require('./');
 const mongoose = require("mongoose");
+const winstonLogger = require('../utils/logger');
 
 const MONGO_URI = DB.mongoDB.atlas_uri ? DB.mongoDB.atlas_uri : DB.mongoDB.local_uri;
 
@@ -9,10 +10,10 @@ const MONGO_URI = DB.mongoDB.atlas_uri ? DB.mongoDB.atlas_uri : DB.mongoDB.local
         useUnifiedTopology: true 
     })
     .then(()=>{ 
-        console.log("--------------------------------------------------------------------");
-        console.log("MongoDB is connected !");
+        winstonLogger.info("--------------------------------------------------------------------");
+        winstonLogger.info("MongoDB CONNECTED !");
     })
-    .catch(error => console.log(error));
+    .catch(error => winstonLogger.error(error));
 })();
 
 module.exports = { mongoose };

@@ -30,19 +30,24 @@ const serverSockets = require('./utils/sockets');
 // ↓ ****** CUSTOM MIDDLEWARES ****** ↓
 const serverMw = require('./utils/middlewares/serverMw');
 
+// ↓ ****** LOGGER ****** ↓
+const winstonLogger = require('./utils/logger');
+
 class Server {
     constructor() {
         this.app = express();
         this.httpServer = new HttpServer(this.app);
-        this.io = new IOServer(this.httpServer, {
-            cors: {
-                origin: "http://localhost:3000",
-                methods: ["GET", "POST"],
-                credentials: true
-            }
-        });
         this.port = args.PORT;
         this.mode = args.MODE;
+
+        const SOCKETS_WHITELIST = config.DEV ? [config.CLIENT_REACT_DEV] : [config.CLIENT_REACT_PROD];
+        this.io = new IOServer(this.httpServer, {
+            cors: {
+                origin: SOCKETS_WHITELIST,
+                methods: ["GET", "POST"],
+                credentials: true, // allow session cookie from browser to pass through
+            }
+        });
         
         this.settings();
         this.middleware();
@@ -58,23 +63,22 @@ class Server {
     }
 
     middleware() {
-        // ↓ ****** START - CORS ****** ↓
-        const whitelist = config.DEV ? [config.CLIENT_REACT_DEV] : [config.CLIENT_REACT_PROD];
+        // ↓ ****** START - HTTP SERVER CORS ****** ↓
+        const HTTP_WHITELIST = config.DEV ? [config.CLIENT_REACT_DEV] : [config.CLIENT_REACT_PROD];
 
         this.app.use(cors({
             origin: function (origin, callback) {
-                if (whitelist.indexOf(origin) !== -1 || !origin) {
-                  callback(null, true)
+                if (HTTP_WHITELIST.indexOf(origin) !== -1 || !origin) {
+                    callback(null, true);
                 } else {
-                  callback(new Error('Not allowed by CORS'))
+                    winstonLogger.error(`Not allowed by CORS || Origin: ${origin}`);
+                    callback('Not allowed by CORS');
                 }
             },
             credentials: true, // allow session cookie from browser to pass through
             methods: "GET,POST,PUT,DELETE",
         }));
-        // ↑ ****** END - CORS ****** ↑
-        
-        this.app.use(morgan('dev'));
+        // ↑ ****** END - HTTP SERVER CORS ****** ↑
 
         // ↓ ****** START - GZIP ****** ↓
         this.app.use(gzip({
@@ -84,7 +88,7 @@ class Server {
 
         // ↓ ****** START - SESSIONS ****** ↓
         this.sessionMw = session({
-            cookie: { maxAge: config.DEV ? 3600000 : 600000 },
+            cookie: { maxAge: config.DEV ? config.SESSION_TIME_DEV : config.SESSION_TIME_PROD },
             resave: false,
             rolling: true,
             saveUninitialized: false,
@@ -99,7 +103,11 @@ class Server {
         this.app.use(this.sessionMw);
         // ↑ ****** END - SESSIONS ****** ↑
 
+        // ↓ ****** START - HTTP LOGGER & FLASH MESSAGES ****** ↓
+        config.DEV && this.app.use(morgan('dev'));
+        
         this.app.use(flash());
+        // ↑ ****** END - HTTP LOGGER & FLASH MESSAGES ****** ↑
     }
 
     routes() {
@@ -116,10 +124,10 @@ class Server {
 
     init() {
         const server = this.httpServer.listen(this.port, () => {
-            console.log(`Server on http://localhost:${this.port} || Worker: ${process.pid} || Date: ${new Date()}`);
+            winstonLogger.info(`Server on http://localhost:${this.port} || Worker: ${process.pid} || Date: ${new Date()}`);
         })
         
-        server.on("error", error => console.log(error));
+        server.on("error", error => winstonLogger.error(error));
     }
 }
 

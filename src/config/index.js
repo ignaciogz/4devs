@@ -20,9 +20,11 @@ const config = {
     DEV: process.env.NODE_ENV !== "production" || true,
     SELECTED_STORAGE: process.env.STORAGE,
     SESSION_SECRET: process.env.SESSION_SECRET || "NO SUPER SECRET",
+    SESSION_TIME_DEV: Number(process.env.SESSION_TIME_DEV),
+    SESSION_TIME_PROD: Number(process.env.SESSION_TIME_PROD),
     UPLOAD_FOLDER: process.env.UPLOAD_FOLDER,
     CLIENT_REACT_DEV: process.env.REACT_APP_DEV,
-    CLIENT_REACT_PROD: process.env.REACT_APP_PROD 
+    CLIENT_REACT_PROD: process.env.REACT_APP_PROD,
 }
 
 const DB = {
