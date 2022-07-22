@@ -4,8 +4,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js -p 8080",
-    "start-server": "node server.js",
-    "start": "node server.js -p 8080"
+    "start": "node server.js",
+    "start:local": "node server.js -p 8080"
   },
   "keywords": [],
   "author": "",

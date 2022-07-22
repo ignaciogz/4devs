@@ -13,7 +13,7 @@ class Notifications {
             detailText += `<tr>
                 <td style="vertical-align: middle;"><img width="60" height="60" src="${config.DEV 
                     ? "https://www.humanscale.com/userFiles/images/seating/smart/17_humanscale_diffrient_smart_chair_1.jpg" 
-                    : `${config.SERVER_URL_PROD}/${item.img}`}" alt="Image of ${item.name}"></td>
+                    : `${config.SERVER_URL_PROD}${item.img}`}" alt="Image of ${item.name}"></td>
                 <td style="vertical-align: middle;">${item.name}</td>
                 <td style="vertical-align: middle;">${IntlTools.formatPrice(item.price, false)}</td>
                 <td style="vertical-align: middle;">${item.qty}u</td>

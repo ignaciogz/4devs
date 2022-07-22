@@ -28,7 +28,7 @@ class Chat {
 
             return chat;
         } catch (error) {
-            loggerWinston.error(`ChatService -> Ejecutando: 'getAll()' || Error: ${error.message}`)
+            loggerWinston.error(`ChatService -> 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -46,7 +46,7 @@ class Chat {
             const messageID = await this.storage.save(newMessage);
             return messageID;
         } catch (error) {
-            loggerWinston.error(`ChatService -> Ejecutando: 'add()' || Error: ${error.message}`)
+            loggerWinston.error(`ChatService -> 'add()' || Error: ${error.message}`)
         }
     }
 }
