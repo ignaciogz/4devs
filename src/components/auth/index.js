@@ -28,12 +28,14 @@ module.exports = app => {
     
     router.get("/error", authMw.isNotAuth, authController.error);
     
+    router.get("/logout", authMw.isAuth, authController.logout);
+
+    router.get("/success", authMw.isAuth, authController.success);
+
     router.post("/login", 
         authMw.isNotAuth,
         passportLocal.authenticate("loginLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error", failureFlash: true })
     );
-
-    router.get("/logout", authMw.isAuth, authController.logout);
     
     router.post("/register",
         authMw.isNotAuth,
@@ -41,6 +43,4 @@ module.exports = app => {
         resizeAvatarMw,
         passportLocal.authenticate("registerLocal", { successRedirect: "/api/auth/success", failureRedirect: "/api/auth/error", failureFlash: true })
     );
-
-    router.get("/success", authMw.isAuth, authController.success);
 }

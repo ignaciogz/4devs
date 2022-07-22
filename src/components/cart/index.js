@@ -9,6 +9,8 @@ module.exports = app => {
 
     router.get('/', authMw.isAuth, cartController.getID);
 
+    router.get('/all', authMw.isAdmin, cartController.getAll);
+
     router.get('/checkout', authMw.isAuth, cartMw.verifyStocks, cartController.checkout);
     
     router.post('/:id_prod', authMw.isAuth, cartMw.verifyStock, cartController.add);

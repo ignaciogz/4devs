@@ -17,6 +17,15 @@ class Cart {
         }
     }
 
+    async getAll() {
+        try {
+            const carts = await this.storage.getAll();
+            return carts;
+        } catch (error) {
+            loggerWinston.error(`CartServices -> 'getAll()' || Error: ${error.message}`)
+        }
+    }
+
     async create() {
         try {
             const newCart = await this.#initCart();

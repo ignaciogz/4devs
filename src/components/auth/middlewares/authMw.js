@@ -8,7 +8,7 @@ class Auth {
             res.json({
                 success: false,
                 error: {
-                    code: '-2',
+                    code: '-4',
                     description: `path: '${req.path}' method: '${method}' NOT authorized`
                 }
             });

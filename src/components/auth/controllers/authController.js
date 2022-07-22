@@ -6,9 +6,7 @@ class Auth {
 
         res.json({ 
             success: true,
-            data: {
-                isLogged
-            }
+            data: { isLogged }
         });
     }
 
