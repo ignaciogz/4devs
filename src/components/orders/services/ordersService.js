@@ -25,7 +25,7 @@ class Orders {
 
             return orderID;
         } catch (error) {
-            loggerWinston.error(`OrdersService -> Ejecutando: 'create()' || Error: ${error.message}`)
+            loggerWinston.error(`OrdersService -> 'create()' || Error: ${error.message}`)
         }
     }
 
@@ -35,7 +35,7 @@ class Orders {
             
             return order;
         } catch (error) {
-            loggerWinston.error(`OrdersService -> Ejecutando: 'getID()' || Error: ${error.message}`)
+            loggerWinston.error(`OrdersService -> 'getID()' || Error: ${error.message}`)
         }
     }
 
@@ -61,7 +61,7 @@ class Orders {
 
             await this.#update(id, order);
         } catch (error) {
-            loggerWinston.error(`OrdersService -> Ejecutando: 'add()' || Error: ${error.message}`)
+            loggerWinston.error(`OrdersService -> 'add()' || Error: ${error.message}`)
         }
     }
 
@@ -94,7 +94,7 @@ class Orders {
 
             return order;
         } catch (error) {
-            loggerWinston.error(`OrdersService -> Ejecutando: 'addAll()' || Error: ${error.message}`)
+            loggerWinston.error(`OrdersService -> 'addAll()' || Error: ${error.message}`)
         }
     }
 
@@ -102,7 +102,7 @@ class Orders {
         try {
             await this.storage.update(id, modifiedOrder);
         } catch (error) {
-            loggerWinston.error(`OrdersService -> Ejecutando: '#update()' || Error: ${error.message}`)
+            loggerWinston.error(`OrdersService -> '#update()' || Error: ${error.message}`)
         }       
     }
 
@@ -111,7 +111,7 @@ class Orders {
             const user = await this.storage.getByEmail(email);
             return user;
         } catch (error) {
-            loggerWinston.error(`OrdersService -> Ejecutando: 'getByEmail()' || Error: ${error.message}`)
+            loggerWinston.error(`OrdersService -> 'getByEmail()' || Error: ${error.message}`)
         }
     }
 
@@ -120,7 +120,7 @@ class Orders {
             const exist = await this.storage.elementExist(id);
             return exist;   
         } catch (error) {
-            loggerWinston.error(`OrdersService -> Ejecutando: 'orderIDExist()' || Error: ${error.message}`)
+            loggerWinston.error(`OrdersService -> 'orderIDExist()' || Error: ${error.message}`)
         }
     }
 }

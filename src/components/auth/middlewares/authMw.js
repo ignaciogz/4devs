@@ -1,6 +1,8 @@
+const { config } = require('../../../config');
+
 class Auth {
     isAdmin(req, res ,next) {
-        if(req.isAuthenticated() && req.user.role === "ADMIN") {
+        if(config.POSTMAN || (req.isAuthenticated() && req.user.role === "ADMIN")) {
             next();
         } else {
             res.json({
@@ -14,7 +16,7 @@ class Auth {
     }
     
     isAuth(req, res, next) {
-        if(req.isAuthenticated()) {
+        if(config.POSTMAN || req.isAuthenticated()) {
             next();
         } else {
             res.json({
@@ -28,7 +30,7 @@ class Auth {
     }
     
     isNotAuth(req, res, next) {
-        if(!req.isAuthenticated()) {
+        if(config.POSTMAN || !req.isAuthenticated()) {
             next();
         } else {
             res.json({

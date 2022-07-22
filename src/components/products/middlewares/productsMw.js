@@ -2,16 +2,20 @@ const productsService = require('../services/productsService');
 
 class Products {
     async productExist(req, res ,next) {
-        const { id } = req.params;
-    
-        const productExist = await productsService.productIDExist(id)
-        productExist ? next() : res.json({
-            success: false,
-            error: {
-                code: '-2',
-                description: `ProductID: ${id} Not Found`
-            },
-        });
+        try {
+            const { id } = req.params;
+        
+            const productExist = await productsService.productIDExist(id)
+            productExist ? next() : res.json({
+                success: false,
+                error: {
+                    code: '-2',
+                    description: `ProductID: ${id} Not Found`
+                },
+            });
+        } catch (error) {
+            loggerWinston.error(`ProductsMw -> 'productExist()' || Error: ${error.message}`)
+        }
     }
 }
 

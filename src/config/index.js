@@ -6,12 +6,10 @@ let args = yargs
                 .default({
                     "MODE": "FORK",
                     "PORT": 8080,
-                    "POSTMAN": false,
                 })
                 .alias({
                     m: "MODE",
                     p: "PORT",
-                    pm: "POSTMAN"
                 })       
             .argv;
 args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT", "POSTMAN"]);
@@ -20,6 +18,7 @@ const config = {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PASS_APP: process.env.ADMIN_PASS_APP,
     DEV: process.env.NODE_ENV !== "production" || true,
+    POSTMAN: Boolean(process.env.USE_POSTMAN) || false,
     SELECTED_STORAGE: process.env.STORAGE,
     SESSION_SECRET: process.env.SESSION_SECRET || "NO SUPER SECRET",
     SESSION_TIME_DEV: Number(process.env.SESSION_TIME_DEV),
