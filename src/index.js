@@ -90,7 +90,8 @@ class Server {
         this.sessionMw = session({
             cookie: { 
                 maxAge: config.DEV ? config.SESSION_TIME_DEV : config.SESSION_TIME_PROD,
-                sameSite: 'none'
+                sameSite: 'none',
+                secure: true
             },
             resave: false,
             rolling: true,
