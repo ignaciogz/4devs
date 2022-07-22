@@ -13,7 +13,7 @@ module.exports = app => {
     
     router.get('/all/user', authMw.isAuth, ordersController.getUserOrders)
 
-    router.post('/:id', authMw.isAdmin, ordersController.add);
+    router.post('/', authMw.isAdmin, ordersController.add);
 
     router.put('/:id', authMw.isAdmin, ordersMw.orderExist, ordersController.update);
     

@@ -35,8 +35,7 @@ class Auth {
                 email,
                 name: req.body.name,
                 password: AuthTools.createHash(password),
-                img: `/img/avatars/${req.file.filename}`,
-                role: "user"
+                img: `/img/avatars/${req.file.filename}`
             }
         
             await usersService.add(newUser);

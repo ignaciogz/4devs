@@ -29,6 +29,7 @@
 - Lógica de autorización de acceso (Tanto en el cliente como en el servidor).
 - Lógica de envío de email (Cuando un nuevo usuario se registra y cuando se genera una orden de compra).
 - Lógica de CORS con lista blanca.
+- Lógica de redimensionado de imágenes.
 - Lógica de filtrado y ordenamiento de productos (Del lado del cliente).
 - Panel de administración (Solo puede acceder el administrador. Los datos son estáticos).
 - Modo Postman.

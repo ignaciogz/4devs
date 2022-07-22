@@ -1,3 +1,4 @@
+const { config } = require('../../config');
 const express = require('express');
 const productsController = require('./controllers/productsController');
 const authMw = require('../auth/middlewares/authMw');
@@ -18,6 +19,10 @@ const uploadFileMw = new uploadFile({
     fileNameProp: "name",
 });
 
+const productImgMws = config.POSTMAN 
+    ? [(req, res, next) => next()] 
+    : [uploadFileMw.single("img"), resizeProductImgMw];
+
 module.exports = app => {
     app.use('/api/products', router);
 
@@ -26,15 +31,13 @@ module.exports = app => {
     router.get('/:id', productsMw.productExist, productsController.getID);
     
     router.post('/', authMw.isAdmin,
-        uploadFileMw.single("img"),
-        resizeProductImgMw,
+        productImgMws,
         productsController.add
     );
     
     router.put('/:id', authMw.isAdmin,
         productsMw.productExist,
-        uploadFileMw.single("img"),
-        resizeProductImgMw,
+        productImgMws,
         productsController.update
     );
     

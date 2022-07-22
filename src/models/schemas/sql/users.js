@@ -1,6 +1,6 @@
 const usersSchema = (table) => {
-    table.increments("id").primary(),
     table.string("email"),
+    table.increments("id").primary(),
     table.string("name"),
     table.string("password"),
     table.string("img"),

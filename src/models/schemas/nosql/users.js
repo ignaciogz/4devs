@@ -1,5 +1,6 @@
 const usersSchema = {
 	email: { type: String, required: true },
+	id: { type: Number, required: true },
 	name: { type: String, required: true },
 	password: { type: String, required: true },
 	img: { type: String, required: true },

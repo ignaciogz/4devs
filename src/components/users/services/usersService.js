@@ -30,6 +30,7 @@ class Users {
     async add(newUser) {
         try {
             newUser.id_cart = await cartService.create();
+            newUser.role = "user";
             const userID = await this.storage.save(newUser);
 
             notificationsService.notify_NewRegister(newUser);
