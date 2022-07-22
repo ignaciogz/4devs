@@ -18,7 +18,7 @@ const config = {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PASS_APP: process.env.ADMIN_PASS_APP,
     DEV: process.env.NODE_ENV !== "production" || true,
-    POSTMAN: Boolean(process.env.USE_POSTMAN) || false,
+    POSTMAN: process.env.USE_POSTMAN === "true" || false,
     SELECTED_STORAGE: process.env.STORAGE,
     SESSION_SECRET: process.env.SESSION_SECRET || "NO SUPER SECRET",
     SESSION_TIME_DEV: Number(process.env.SESSION_TIME_DEV),

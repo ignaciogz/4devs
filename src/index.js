@@ -28,7 +28,7 @@ const serverRoutes = require('./routes');
 const serverSockets = require('./utils/sockets');
 
 // ↓ ****** CUSTOM MIDDLEWARES ****** ↓
-const serverMw = require('./utils/middlewares/eerverMw');
+const serverMw = require('./utils/middlewares/serverMw');
 
 // ↓ ****** LOGGER ****** ↓
 const loggerWinston = require('./utils/logger');
