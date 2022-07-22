@@ -2,7 +2,7 @@ const loggerWinston = require("../../../utils/logger");
 
 class Auth {
     isLogged(req, res, next) {
-        const isLogged = req.isAuthenticated()
+        const isLogged = req.isAuthenticated();
 
         res.json({ 
             success: true,
@@ -14,6 +14,7 @@ class Auth {
 
     logout(req, res, next) {
         req.logout();
+
         req.session.destroy(err => {
             if(err) console.log(error);
             
@@ -32,8 +33,8 @@ class Auth {
     }
 
     error(req, res, next) {
-        const errorFn = req.flash('errorFn')
-        errorFn && loggerWinston.error("ERROR FLASH: ", errorFn)
+        const errorFlashMessage = req.flash('authError');
+        loggerWinston.error(`AuthController -> 'error()' || Error Flash: ${errorFlashMessage}`);
 
         res.json({ 
             success: false 

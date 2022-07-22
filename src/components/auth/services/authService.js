@@ -9,20 +9,16 @@ class Auth {
             const user = await usersService.getByEmail(username);
 
             if (!user) {
-                loggerWinston.error(`Error en login -> Passport: 'LOCAL' || Msj: Usuario con email '${username}' NO encontrado`);
-                
-                return done(null, false, req.flash('errorFn', 'login'));
+                return done(null, false, req.flash('authError', `Login: User '${username}' NOT Found`));
             }
         
             if (!AuthTools.isValidPassword(user, password)) {
-                loggerWinston.error(`Contraseña invalida`);
-                
-                return done(null, false, req.flash('errorFn', 'login'));
+                return done(null, false, req.flash('authError', `Login: Invalid password`));
             }
     
             return done(null, user);
         } catch (error) {
-            loggerWinston.error(`Passport Local -> Ejecutando: 'Login LocalStrategy' || Error: ${error.message}`)
+            loggerWinston.error(`AuthService -> 'loginLocal()' || Error: ${error.message}`)
         }
     }
 
@@ -32,8 +28,7 @@ class Auth {
             const user = await usersService.getByEmail(email);
 
             if (user) {
-                loggerWinston.error(`Error en register -> Passport: 'LOCAL' || Msj: El usuario '${email}' ya existe !`);
-                return done(null, false, req.flash('errorFn', 'register'));
+                return done(null, false, req.flash('authError', `Register: User '${email}' already exist`));
             }
             
             const newUser = {
@@ -48,7 +43,7 @@ class Auth {
             
             return done(null, newUser);
         } catch (error) {
-            loggerWinston.error(`Passport Local -> Ejecutando: 'Register LocalStrategy' || Error: ${error.message}`)
+            loggerWinston.error(`AuthService -> 'registerLocal()' || Error: ${error.message}`)
         }
     }
 
@@ -61,7 +56,7 @@ class Auth {
             const user = await usersService.getByEmail(email);
             done(null, user);
         } catch (error) {
-            loggerWinston.error(`Passport Local -> Ejecutando: 'deserializeUser' || Error: ${error.message}`)
+            loggerWinston.error(`AuthService -> 'deserializeUserLocal()' || Error: ${error.message}`)
         }
     }
 }
