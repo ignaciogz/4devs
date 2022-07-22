@@ -88,7 +88,10 @@ class Server {
 
         // ↓ ****** START - SESSIONS ****** ↓
         this.sessionMw = session({
-            cookie: { maxAge: config.DEV ? config.SESSION_TIME_DEV : config.SESSION_TIME_PROD },
+            cookie: { 
+                maxAge: config.DEV ? config.SESSION_TIME_DEV : config.SESSION_TIME_PROD,
+                sameSite: 'none'
+            },
             resave: false,
             rolling: true,
             saveUninitialized: false,
