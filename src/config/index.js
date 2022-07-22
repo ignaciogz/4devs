@@ -5,14 +5,14 @@ require('dotenv').config();
 let args = yargs
                 .default({
                     "MODE": "FORK",
-                    "PORT": 8080,
+                    "PORT": process.env.PORT || 8080,
                 })
                 .alias({
                     m: "MODE",
                     p: "PORT",
                 })       
             .argv;
-args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT", "POSTMAN"]);
+args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT"]);
 
 const config = {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
