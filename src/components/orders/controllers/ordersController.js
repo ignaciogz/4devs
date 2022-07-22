@@ -4,11 +4,11 @@ const loggerWinston = require("../../../utils/logger");
 class Orders {
     async getAll(req, res, next) {
         try {
-            const brands = await ordersService.getAll();
+            const orders = await ordersService.getAll();
 
             res.json({ 
                 success: true,
-                data: { brands } 
+                data: { orders } 
             });
         } catch (error) {
             loggerWinston.error(`OrdersController -> 'getAll()' || Error: ${error.message}`)

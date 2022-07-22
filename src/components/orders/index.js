@@ -7,7 +7,7 @@ const router = express.Router();
 module.exports = app => {
     app.use('/api/orders', router);
 
-    router.get('/', authMw.isAdmin, categoriesController.getAll);
+    router.get('/', authMw.isAdmin, ordersController.getAll);
 
     router.get('/:id', authMw.isAuth, ordersMw.orderExist, ordersController.getID);
     
