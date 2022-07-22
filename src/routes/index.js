@@ -1,3 +1,5 @@
+const { config } = require('../config');
+
 const authAPI = require('../components/auth');
 const brandsAPI = require('../components/brands');
 const cartAPI = require('../components/cart');
@@ -16,6 +18,10 @@ module.exports = app => {
     usersAPI(app);
     
     app.get('/', (req, res, next) => {
-        res.sendFile('index.html', { root: __dirname });
+        res.json({ 
+            message: "Welcome! to 4DEVS API",
+            development_mode: config.DEV,
+            using_postman: config.POSTMAN,
+        });
     });
 }
