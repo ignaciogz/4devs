@@ -8,7 +8,7 @@ class Products {
         productExist ? next() : res.json({
             success: false,
             error: {
-                code: '-1',
+                code: '-2',
                 description: `ProductID: ${id} Not Found`
             },
         });

@@ -8,7 +8,7 @@ class Orders {
         orderExist ? next() : res.json({
             success: false,
             error: {
-                code: '-1',
+                code: '-2',
                 description: `OrderID: ${id} Not Found`
             },
         });

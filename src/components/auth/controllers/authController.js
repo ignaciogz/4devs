@@ -1,4 +1,4 @@
-const authService = require('../services/authService');
+const loggerWinston = require("../../../utils/logger");
 
 class Auth {
     isLogged(req, res, next) {
@@ -26,13 +26,18 @@ class Auth {
     }
 
     success(req, res, next) { 
-        res.json({ success: true })
+        res.json({ 
+            success: true
+        })
     }
 
     error(req, res, next) {
         const errorFn = req.flash('errorFn')
-        console.log("ERROR FLASH: ", errorFn)
-        res.json({ success: false })
+        errorFn && loggerWinston.error("ERROR FLASH: ", errorFn)
+
+        res.json({ 
+            success: false 
+        })
     }
 }
 

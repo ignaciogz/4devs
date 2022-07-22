@@ -1,3 +1,5 @@
+const loggerWinston = require("../logger");
+
 class Sockets {
     getSocketIOMw(middleware) {
         return (socket, next) => middleware(socket.request, {}, next);
@@ -10,7 +12,7 @@ class Sockets {
             if (session && session.authenticated) {
                 next();
             } else {
-                new Error("unauthorized");
+                loggerWinston.error("NOT authenticated");
             }
         }
     }

@@ -31,7 +31,7 @@ const serverSockets = require('./utils/sockets');
 const serverMw = require('./utils/middlewares/serverMw');
 
 // ↓ ****** LOGGER ****** ↓
-const winstonLogger = require('./utils/logger');
+const loggerWinston = require('./utils/logger');
 
 class Server {
     constructor() {
@@ -71,7 +71,7 @@ class Server {
                 if (HTTP_WHITELIST.indexOf(origin) !== -1 || !origin) {
                     callback(null, true);
                 } else {
-                    winstonLogger.error(`Not allowed by CORS || Origin: ${origin}`);
+                    loggerWinston.error(`Not allowed by CORS || Origin: ${origin}`);
                     callback('Not allowed by CORS');
                 }
             },
@@ -124,10 +124,10 @@ class Server {
 
     init() {
         const server = this.httpServer.listen(this.port, () => {
-            winstonLogger.info(`Server on http://localhost:${this.port} || Worker: ${process.pid} || Date: ${new Date()}`);
+            loggerWinston.info(`Server on http://localhost:${this.port} || Worker: ${process.pid} || Date: ${new Date()}`);
         })
         
-        server.on("error", error => winstonLogger.error(error));
+        server.on("error", error => loggerWinston.error(error));
     }
 }
 

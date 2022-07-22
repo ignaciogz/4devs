@@ -1,8 +1,8 @@
 class Auth {
-    access(req, res ,next) {
-        const method = req.method;
-    
-        if(req.isAuthenticated() && req.user && !req.user.administrator && method != "GET") {
+    isAdmin(req, res ,next) {
+        if(req.isAuthenticated() && req.user.role === "ADMIN") {
+            next();
+        } else {
             res.json({
                 success: false,
                 error: {
@@ -10,8 +10,6 @@ class Auth {
                     description: `path: '${req.path}' method: '${method}' NOT authorized`
                 }
             });
-        } else {
-            next();
         }
     }
     
@@ -22,7 +20,7 @@ class Auth {
             res.json({
                 success: false,
                 error: {
-                    code: '-2',
+                    code: '-3',
                     description: "NOT authenticated"
                 }
             });
@@ -36,7 +34,7 @@ class Auth {
             res.json({
                 success: false,
                 error: {
-                    code: '-2',
+                    code: '-3',
                     description: "Authenticated"
                 }
             });

@@ -1,4 +1,4 @@
-const { config } = require('../../../config');
+const { args, config } = require('../../../config');
 const { IntlTools } = require('../../../utils/tools');
 const { NodeMailer } = require('../../../utils/notificators/mailer');
 
@@ -11,7 +11,9 @@ class Notifications {
             let subtotal = item.qty * item.price;
             
             detailText += `<tr>
-                <td style="vertical-align: middle;"><img width="60" height="60" src="https://www.humanscale.com/userFiles/images/seating/smart/17_humanscale_diffrient_smart_chair_1.jpg" alt="Image of ${item.name}"></td>
+                <td style="vertical-align: middle;"><img width="60" height="60" src="${config.DEV 
+                    ? "https://www.humanscale.com/userFiles/images/seating/smart/17_humanscale_diffrient_smart_chair_1.jpg" 
+                    : `${config.SERVER_URL_PROD}/${item.img}`}" alt="Image of ${item.name}"></td>
                 <td style="vertical-align: middle;">${item.name}</td>
                 <td style="vertical-align: middle;">${IntlTools.formatPrice(item.price, false)}</td>
                 <td style="vertical-align: middle;">${item.qty}u</td>

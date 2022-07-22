@@ -5,14 +5,16 @@ require('dotenv').config();
 let args = yargs
                 .default({
                     "MODE": "FORK",
-                    "PORT": process.env.PORT || 8000,
+                    "PORT": 8080,
+                    "POSTMAN": false,
                 })
                 .alias({
                     m: "MODE",
-                    p: "PORT"
+                    p: "PORT",
+                    pm: "POSTMAN"
                 })       
             .argv;
-args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT"]);
+args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT", "POSTMAN"]);
 
 const config = {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
@@ -22,6 +24,7 @@ const config = {
     SESSION_SECRET: process.env.SESSION_SECRET || "NO SUPER SECRET",
     SESSION_TIME_DEV: Number(process.env.SESSION_TIME_DEV),
     SESSION_TIME_PROD: Number(process.env.SESSION_TIME_PROD),
+    SERVER_URL_PROD: process.env.SERVER_URL_PROD,
     UPLOAD_FOLDER: process.env.UPLOAD_FOLDER,
     CLIENT_REACT_DEV: process.env.REACT_APP_DEV,
     CLIENT_REACT_PROD: process.env.REACT_APP_PROD,

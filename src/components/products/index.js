@@ -25,29 +25,21 @@ module.exports = app => {
      
     router.get('/:id', productsMw.productExist, productsController.getID);
     
-    router.post('/', 
+    router.post('/', authMw.isAdmin,
         uploadFileMw.single("img"),
         resizeProductImgMw,
         productsController.add
     );
     
-    router.put('/:id', 
+    router.put('/:id', authMw.isAdmin,
         productsMw.productExist,
         uploadFileMw.single("img"),
         resizeProductImgMw,
-        productsController.update)
-    ;
+        productsController.update
+    );
     
-    router.delete('/:id', productsMw.productExist, productsController.delete);
-
-    
-    /* router.get('/', productsController.getAll);
-     
-    router.get('/:id', productsController.productExist, productsController.getID);
-    
-    router.post('/', authMw.access, productsController.add);
-    
-    router.put('/:id', authMw.access, productsController.productExist, productsController.update);
-    
-    router.delete('/:id', authMw.access, productsController.productExist, productsController.delete); */
+    router.delete('/:id', authMw.isAdmin,
+        productsMw.productExist,
+        productsController.delete
+    );
 }

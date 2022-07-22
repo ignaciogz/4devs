@@ -22,7 +22,7 @@ class Auth {
     
             return done(null, user);
         } catch (error) {
-            loggerWinston.warn(`Passport Local -> Ejecutando: 'Login LocalStrategy' || Error: ${error.message}`)
+            loggerWinston.error(`Passport Local -> Ejecutando: 'Login LocalStrategy' || Error: ${error.message}`)
         }
     }
 
