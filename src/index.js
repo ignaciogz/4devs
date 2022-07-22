@@ -71,7 +71,7 @@ class Server {
                 if (HTTP_WHITELIST.indexOf(origin) !== -1 || !origin) {
                     callback(null, true);
                 } else {
-                    loggerWinston.error(`Not allowed by CORS || Origin: ${origin}`);
+                    loggerWinston.error(`index.js -> 'middleware()' || Error: Not allowed by CORS || Origin: ${origin}`);
                     callback('Not allowed by CORS');
                 }
             },
@@ -90,10 +90,10 @@ class Server {
         !config.DEV && this.app.set('trust proxy', 1)
 
         this.sessionMw = session({
-            cookie: { 
+            cookie: {
                 maxAge: config.DEV ? config.SESSION_TIME_DEV : config.SESSION_TIME_PROD,
                 sameSite: config.DEV ? false : 'none',
-                secure: true
+                secure: config.DEV ? false : true
             },
             resave: false,
             rolling: true,

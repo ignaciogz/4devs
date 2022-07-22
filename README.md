@@ -11,7 +11,7 @@
 7. Modo Postman
 
 
-<h2 align="left">1. Descripción</h2>
+<h2 align="left">1. Descripción del proyecto</h2>
 <p align="left">4DEVS ! es una tienda de equipamiento integral y saludable, para todo tipo de oficinas.</p>
 <p align="left">Su frontend se encuentra desarrollado con React.js usando Vite.js. Y su backend con Node.js usando Express.js</p>
 
@@ -28,6 +28,7 @@
 - Lógica de autenticación de usuario basada en sesiones (Tanto en el cliente como en el servidor).
 - Lógica de autorización de acceso (Tanto en el cliente como en el servidor).
 - Lógica de envío de email (Cuando un nuevo usuario se registra y cuando se genera una orden de compra).
+- Lógica de CORS con lista blanca.
 - Lógica de filtrado y ordenamiento de productos (Del lado del cliente).
 - Panel de administración (Solo puede acceder el administrador. Los datos son estáticos).
 - Modo Postman.
@@ -81,9 +82,28 @@
 - SERVER_URL_DEV
 - SERVER_URL_PROD
 
-<p align="left">IMPORTANTE: Si ENV es production, React va a realizar solicitudes al server en Heroku.</p>
 <p align="left">IMPORTANTE: Cambiar el puerto de SERVER_URL_DEV, si el backend local usa un puerto diferente al 8080</p>
+<p align="left">IMPORTANTE: Si ENV es production, React va a realizar solicitudes al server en Heroku. Y necesita estar montando sobre un servidor HTTPS (Leer siguiente apartado)</p>
 
+<h3 align="left">Variable ENV con valor: production (Heroku):</h3>
+
+<p align="left">Para poder hacer solicitudes a Heroku es necesario que Vite.js cree un servidor HTTPS !</p>
+
+1. Matar el servidor actual de Vite.js.
+2. Ir a la carpeta de react y acceder al archivo "vite.config.js".
+3. Setear el atributo https en true.
+4. Volver a lanzar el react.
+
+```JavaScript
+    export default defineConfig({
+        server: {
+            https: true, // IMPORTANTE PARA PRODUCCION !
+            port: 8081,
+            strictPort: true,
+        },
+        plugins: [react(), mkcert()],
+    })
+```
 
 <h2 align="left">5. Backend</h2>
 
@@ -97,13 +117,13 @@
 <h3 align="left">Ejecución:</h3>
 
 ```bash
-    npm start
+    npm run start
 ```
 
 <p align="left">O usando Nodemon:</p>
 
 ```bash
-    npm dev
+    npm run dev
 ```
 
 <h2 align="left">6. Estructura de respuestas - backend</h2>
