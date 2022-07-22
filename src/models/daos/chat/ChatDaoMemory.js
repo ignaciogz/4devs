@@ -8,27 +8,19 @@ class ChatDaoMemory extends MemoryContainer {
     }
 
     async getByID(id) {
-        try {
-            const result = await super.getByID(id);
+        const result = super.getByID(id);
 
-            return new ChatDto(result);
-        } catch (error) {
-            console.log("Error getById() on CartsDaoMemory", error);
-        }
+        return new ChatDto(result);
     }
 
     async getAll() {
-        try {
-            const results = await super.getAll();
+        const results = super.getAll();
 
-            const dtos = results.map(result => {
-                return new ChatDto(result);
-            });
+        const dtos = results.map(result => {
+            return new ChatDto(result);
+        });
 
-            return dtos;
-        } catch (error) {
-            console.log("Error getAll() on CartsDaoMemory", error);
-        }
+        return dtos;
     }
 
     async desconectar() {

@@ -1,5 +1,6 @@
 const MongoDBContainer = require('../../containers/MongoDBContainer');
 const chatSchema = require('../../schemas/nosql/chat');
+const loggerWinston = require("../../../utils/logger");
 
 const ChatDto = require('../../dtos/ChatDto');
 
@@ -18,7 +19,7 @@ class ChatDaoMongoDB extends MongoDBContainer {
 
             return dtos;
         } catch (error) {
-            console.log("Error getAll() on ChatDaoMongoDB", error);
+            loggerWinston.error(`ChatDaoMongoDB -> 'getAll()' || Error: ${error.message}`)
         }
     }
 

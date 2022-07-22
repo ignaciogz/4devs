@@ -1,6 +1,7 @@
 const RelationalDBContainer = require('../../containers/RelationalDBContainer');
 const ordersSchema = require('../../schemas/sql/orders');
 const { DB } = require('../../../config');
+const loggerWinston = require("../../../utils/logger");
 
 class OrdersDaoMariaDB extends RelationalDBContainer {
     constructor() {
@@ -23,7 +24,7 @@ class OrdersDaoMariaDB extends RelationalDBContainer {
 
             return finalResult;
         } catch (error) {
-            console.log("Error getById() on OrdersDaoMariaDB", error);
+            loggerWinston.error(`OrdersDaoMariaDB -> 'getById()' || Error: ${error.message}`)
         }
     }
 
@@ -41,7 +42,7 @@ class OrdersDaoMariaDB extends RelationalDBContainer {
 
             return finalResult;
         } catch (error) {
-            console.log("Error getAll() on OrdersDaoMariaDB", error);
+            loggerWinston.error(`OrdersDaoMariaDB -> 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -51,7 +52,7 @@ class OrdersDaoMariaDB extends RelationalDBContainer {
             data.items = this.#toJSON(data.items);
             return await super.save(data);
         } catch (error) {
-            console.log("Error save() on OrdersDaoMariaDB", error);
+            loggerWinston.error(`OrdersDaoMariaDB -> 'save()' || Error: ${error.message}`)
         }
     }
 
@@ -61,7 +62,7 @@ class OrdersDaoMariaDB extends RelationalDBContainer {
             data.items = this.#toJSON(data.items);
             await super.update(id, data);
         } catch (error) {
-            console.log("Error update() on OrdersDaoMariaDB", error);
+            loggerWinston.error(`OrdersDaoMariaDB -> 'update()' || Error: ${error.message}`)
         }
     }
 

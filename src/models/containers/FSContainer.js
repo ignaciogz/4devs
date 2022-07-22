@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { ArrayTools, TimeTools } = require('../../utils/tools');
+const loggerWinston = require("../../utils/logger");
 
 class FSContainer {
     constructor(fileName) {
@@ -9,21 +10,25 @@ class FSContainer {
     }
 
     async #init() {
-        if (!fs.existsSync(this.fileName)) {
-            this.lastID = 0;
-            const contentJSON = this.#initialContent();
-            fs.writeFileSync(this.fileName, contentJSON, 'utf-8');
-        } else {
-            this.lastID = await this.getAll().then(content => {
-                const elementsQty = content.length;
-    
-                if (elementsQty > 0) {
-                    const lastElement = content[elementsQty-1];
-                    return lastElement.id;
-                }
-    
-                return 0; 
-            });
+        try {
+            if (!fs.existsSync(this.fileName)) {
+                this.lastID = 0;
+                const contentJSON = this.#initialContent();
+                fs.writeFileSync(this.fileName, contentJSON, 'utf-8');
+            } else {
+                this.lastID = await this.getAll().then(content => {
+                    const elementsQty = content.length;
+        
+                    if (elementsQty > 0) {
+                        const lastElement = content[elementsQty-1];
+                        return lastElement.id;
+                    }
+        
+                    return 0; 
+                });
+            }
+        } catch (error) {
+            loggerWinston.error(`FSContainer -> '#init()' || Error: ${error.message}`)
         }
     }
 
@@ -52,7 +57,7 @@ class FSContainer {
             const index = ArrayTools.getIndexOfElementID(elements, id);
             return elements[index];
         } catch (error) {
-            console.log("Error getById() ", error);
+            loggerWinston.error(`FSContainer -> 'getByID()' || Error: ${error.message}`)
         }
     }
 
@@ -63,7 +68,7 @@ class FSContainer {
 
             return content.elements;
         } catch (error) {
-            console.log("Error getAll() ", error);
+            loggerWinston.error(`FSContainer -> 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -80,7 +85,7 @@ class FSContainer {
 
             return data.id;
         } catch (error) {
-            console.log("Error save() ", error);
+            loggerWinston.error(`FSContainer -> 'save()' || Error: ${error.message}`)
         }
     }
 
@@ -96,7 +101,7 @@ class FSContainer {
             const contentJSON = this.#createContent(elements, id);
             await fs.promises.writeFile(this.fileName, contentJSON);
         } catch (error) {
-            console.log("Error update() ", error);
+            loggerWinston.error(`FSContainer -> 'update()' || Error: ${error.message}`)
         }
     }
 
@@ -110,7 +115,7 @@ class FSContainer {
             const contentJSON = this.#createContent(elements);
             await fs.promises.writeFile(this.fileName, contentJSON);
         } catch (error) {
-            console.log("Error deleteById() ", error);
+            loggerWinston.error(`FSContainer -> 'deleteById()' || Error: ${error.message}`)
         }
         
     }
@@ -121,7 +126,7 @@ class FSContainer {
             await fs.promises.writeFile(this.fileName, contentJSON);
             this.lastID = 0;
         } catch (error) {
-            console.log("Error deleteAll() ", error);
+            loggerWinston.error(`FSContainer -> 'deleteAll()' || Error: ${error.message}`)
         }
     }
 
@@ -132,7 +137,7 @@ class FSContainer {
             const index = ArrayTools.getIndexOfElementID(elements, id);
             return (index !== -1);
         } catch (error) {
-            console.log("Error elementExist() ", error);
+            loggerWinston.error(`FSContainer -> 'elementExist()' || Error: ${error.message}`)
         }
     }
 }

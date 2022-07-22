@@ -1,6 +1,7 @@
 const RelationalDBContainer = require('../../containers/RelationalDBContainer');
 const chatSchema = require('../../schemas/sql/chat');
 const { DB } = require('../../../config');
+const loggerWinston = require("../../../utils/logger");
 
 const ChatDto = require('../../dtos/ChatDto');
 
@@ -22,7 +23,7 @@ class ChatDaoMariaDB extends RelationalDBContainer {
             
             return dto;
         } catch (error) {
-            console.log("Error getById() on CartsDaoMariaDB", error);
+            loggerWinston.error(`ChatDaoMariaDB -> 'getById()' || Error: ${error.message}`)
         }
     }
 
@@ -39,7 +40,7 @@ class ChatDaoMariaDB extends RelationalDBContainer {
 
             return dtos;
         } catch (error) {
-            console.log("Error getAll() on CartsDaoMariaDB", error);
+            loggerWinston.error(`ChatDaoMariaDB -> 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -48,7 +49,7 @@ class ChatDaoMariaDB extends RelationalDBContainer {
             data.autor = this.#toJSON(data.autor);
             return await super.save(data);
         } catch (error) {
-            console.log("Error save() on CartsDaoMariaDB", error);
+            loggerWinston.error(`ChatDaoMariaDB -> 'save()' || Error: ${error.message}`)
         }
     }
 
@@ -57,7 +58,7 @@ class ChatDaoMariaDB extends RelationalDBContainer {
             data.autor = this.#toJSON(data.autor);
             await super.update(id, data);
         } catch (error) {
-            console.log("Error update() on CartsDaoMariaDB", error);
+            loggerWinston.error(`ChatDaoMariaDB -> 'update()' || Error: ${error.message}`)
         }
     }
     

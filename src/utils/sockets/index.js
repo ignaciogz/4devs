@@ -22,7 +22,7 @@ const chatSocket = io => {
             // ↓ ****** START - ASSOCIATING HANDLERS ****** ↓
             socket.on("new-message", messagesHandler(io, socket));
         } catch (error) {
-            loggerWinston.error(`Init Socket -> Error: ${error.message}`)
+            loggerWinston.error(`Sockets -> 'chatSocket()' || Error: ${error.message}`)
         }
     }
 }

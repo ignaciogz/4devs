@@ -1,5 +1,6 @@
 const knex = require("knex");
 const { ArrayTools, TimeTools } = require('../../utils/tools');
+const loggerWinston = require("../../utils/logger");
 
 class RelationalDBContainer {
     constructor(table, config, schema) {
@@ -19,7 +20,7 @@ class RelationalDBContainer {
                 console.log(`Table "${this.table}" already exist !`);
             }
         } catch (error) {
-            console.log("Error #init() on RelationalDBContainer", error);
+            loggerWinston.error(`RelationalDBContainer -> '#init()' || Error: ${error.message}`)
         }
     }
 
@@ -28,7 +29,7 @@ class RelationalDBContainer {
             const result = await this.client.from(this.table).where("id", id).limit(1);
             return result.shift();   
         } catch (error) {
-            console.log("Error getById() ", error);
+            loggerWinston.error(`RelationalDBContainer -> 'getById()' || Error: ${error.message}`)
         }
     }
 
@@ -37,7 +38,7 @@ class RelationalDBContainer {
             const result = await this.client.from(this.table);
             return result;
         } catch (error) {
-            console.log("Error getAll() ", error);
+            loggerWinston.error(`RelationalDBContainer -> 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -49,7 +50,7 @@ class RelationalDBContainer {
 
             return insertID.shift();
         } catch (error) {
-            console.log("Error save() ", error);
+            loggerWinston.error(`RelationalDBContainer -> 'save()' || Error: ${error.message}`)
         }
     }
 
@@ -60,7 +61,7 @@ class RelationalDBContainer {
             
             await this.client.from(this.table).where("id", id).update(data);
         } catch (error) {
-            console.log("Error update() ", error);
+            loggerWinston.error(`RelationalDBContainer -> 'update()' || Error: ${error.message}`)
         }
     }
 
@@ -68,7 +69,7 @@ class RelationalDBContainer {
         try {
             await this.client.from(this.table).where("id", id).del();
         } catch (error) {
-            console.log("Error deleteById() ", error);
+            loggerWinston.error(`RelationalDBContainer -> 'deleteById()' || Error: ${error.message}`)
         }
         
     }
@@ -77,7 +78,7 @@ class RelationalDBContainer {
         try {
             await this.client.from(this.table).del();
         } catch (error) {
-            console.log("Error deleteAll() ", error);
+            loggerWinston.error(`RelationalDBContainer -> 'deleteAll()' || Error: ${error.message}`)
         }
     }
 
@@ -88,7 +89,7 @@ class RelationalDBContainer {
             const index = ArrayTools.getIndexOfElementID(elements, id);
             return (index !== -1);
         } catch (error) {
-            console.log("Error elementExist() ", error);
+            loggerWinston.error(`RelationalDBContainer -> 'elementExist()' || Error: ${error.message}`)
         }
     }
 }

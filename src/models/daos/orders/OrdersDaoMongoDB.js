@@ -1,5 +1,6 @@
 const MongoDBContainer = require('../../containers/MongoDBContainer');
 const ordersSchema = require('../../schemas/nosql/orders');
+const loggerWinston = require("../../../utils/logger");
 
 class OrdersDaoMongoDB extends MongoDBContainer {
     constructor() {
@@ -11,7 +12,7 @@ class OrdersDaoMongoDB extends MongoDBContainer {
             const result = await this.model.find({"client.email": email});
             return result;
         } catch (error) {
-            console.log("Error getByUserName() ", error);
+            loggerWinston.error(`OrdersDaoMongoDB -> 'getByUserName()' || Error: ${error.message}`)
         }
     }
 

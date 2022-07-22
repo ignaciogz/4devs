@@ -15,7 +15,7 @@ const messagesHandler = (io, socket) => {
 
             io.sockets.emit('new-message', newMessage);
         } catch (error) {
-            loggerWinston.error(`Messages Socket -> Error: ${error.message}`)
+            loggerWinston.error(`Sockets -> 'messagesHandler()' || Error: ${error.message}`)
         }
     }
 }

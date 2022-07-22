@@ -16,7 +16,7 @@ class NodeMailer {
         try {
             NodeMailer.transporter.sendMail(mailOptions);
         } catch (error) {
-            loggerWinston.error(`NodeMailer -> Ejecutando: '${ejecutando}' || Error: ${error.message}`);
+            loggerWinston.error(`NodeMailer -> '${ejecutando}' || Error: ${error.message}`);
         }
     }
 }

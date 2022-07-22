@@ -1,5 +1,6 @@
 const { mongoose } = require('../../config/mongoDB');
 const { ArrayTools, TimeTools } = require('../../utils/tools');
+const loggerWinston = require("../../utils/logger");
 
 class MongoDBContainer {
     constructor(modelName, schema) {
@@ -22,7 +23,7 @@ class MongoDBContainer {
     
             return ++lastID;   
         } catch (error) {
-            console.log("Error #getNewID() ", error);
+            loggerWinston.error(`MongoDBContainer -> '#getNewID()' || Error: ${error.message}`)
         }
     }
 
@@ -31,7 +32,7 @@ class MongoDBContainer {
             const result = await this.model.find({id}, {"_id":0}).limit(1);
             return result.shift();
         } catch (error) {
-            console.log("Error getById() ", error);
+            loggerWinston.error(`MongoDBContainer -> 'getById()' || Error: ${error.message}`)
         }
     }
 
@@ -40,7 +41,7 @@ class MongoDBContainer {
             const result = await this.model.find({}, {"_id":0});
             return result;
         } catch (error) {
-            console.log("Error getAll() ", error);
+            loggerWinston.error(`MongoDBContainer -> 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -53,7 +54,7 @@ class MongoDBContainer {
 
             return data.id;
         } catch (error) {
-            console.log("Error save() ", error);
+            loggerWinston.error(`MongoDBContainer -> 'save()' || Error: ${error.message}`)
         }
     }
 
@@ -64,7 +65,7 @@ class MongoDBContainer {
 
             await this.model.updateOne({id}, data);
         } catch (error) {
-            console.log("Error update() ", error);
+            loggerWinston.error(`MongoDBContainer -> 'update()' || Error: ${error.message}`)
         }
     }
 
@@ -72,7 +73,7 @@ class MongoDBContainer {
         try {
             await this.model.deleteMany({id});
         } catch (error) {
-            console.log("Error deleteById() ", error);
+            loggerWinston.error(`MongoDBContainer -> 'deleteById()' || Error: ${error.message}`)
         }
     }
 
@@ -80,7 +81,7 @@ class MongoDBContainer {
         try {
             await this.model.deleteMany({});
         } catch (error) {
-            console.log("Error deleteAll() ", error);
+            loggerWinston.error(`MongoDBContainer -> 'deleteAll()' || Error: ${error.message}`)
         }
     }
 
@@ -91,7 +92,7 @@ class MongoDBContainer {
             const index = ArrayTools.getIndexOfElementID(elements, id);
             return (index !== -1);
         } catch (error) {
-            console.log("Error elementExist() ", error);
+            loggerWinston.error(`MongoDBContainer -> 'elementExist()' || Error: ${error.message}`)
         }
     }
 }

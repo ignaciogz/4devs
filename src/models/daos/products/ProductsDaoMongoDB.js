@@ -1,5 +1,6 @@
 const MongoDBContainer = require('../../containers/MongoDBContainer');
 const productsSchema = require('../../schemas/nosql/products');
+const loggerWinston = require("../../../utils/logger");
 
 const ProductsDto = require('../../dtos/ProductsDto');
 
@@ -16,7 +17,7 @@ class ProductsDaoMongoDB extends MongoDBContainer {
             
             return dto;
         } catch (error) {
-            console.log("Error getByID() on ProductsDaoMongoDB", error);
+            loggerWinston.error(`ProductsDaoMongoDB -> 'getByID()' || Error: ${error.message}`)
         }
     }
 
