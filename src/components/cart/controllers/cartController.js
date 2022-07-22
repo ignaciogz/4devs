@@ -68,7 +68,7 @@ class Cart {
             const { id_cart } = req.user;
             const { id_prod } = req.params;
     
-            await cartService.delete(id_cart, id_prod);
+            await cartService.deleteItem(id_cart, id_prod);
     
             res.json({ 
                 success: true,
