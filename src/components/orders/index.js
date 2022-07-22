@@ -6,14 +6,16 @@ const router = express.Router();
 
 module.exports = app => {
     app.use('/api/orders', router);
-     
+
+    router.get('/', authMw.isAdmin, categoriesController.getAll);
+
     router.get('/:id', authMw.isAuth, ordersMw.orderExist, ordersController.getID);
     
     router.get('/all/user', authMw.isAuth, ordersController.getUserOrders)
 
-    /* router.post('/:id', authMw.isAdmin, ordersController.add);
+    router.post('/:id', authMw.isAdmin, ordersController.add);
 
-    router.put('/:id', authMw.isAdmin, ordersController.update);
+    router.put('/:id', authMw.isAdmin, ordersMw.orderExist, ordersController.update);
     
-    router.delete('/:id', authMw.isAdmin, ordersController.delete); */
+    router.delete('/:id', authMw.isAdmin, ordersMw.orderExist, ordersController.delete);
 }

@@ -17,15 +17,6 @@ class Cart {
         }
     }
 
-    async getAll() {
-        try {
-            const carts = await this.storage.getAll();
-            return carts;
-        } catch (error) {
-            loggerWinston.error(`CartServices -> 'getAll()' || Error: ${error.message}`)
-        }
-    }
-
     async create() {
         try {
             const newCart = await this.#initCart();
@@ -33,7 +24,16 @@ class Cart {
 
             return cartID;
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'create()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> 'create()' || Error: ${error.message}`)
+        }
+    }
+
+    async getAll() {
+        try {
+            const carts = await this.storage.getAll();
+            return carts;
+        } catch (error) {
+            loggerWinston.error(`CartService -> 'getAll()' || Error: ${error.message}`)
         }
     }
 
@@ -43,30 +43,11 @@ class Cart {
             
             return cart;
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> 'getID()' || Error: ${error.message}`)
         }
     }
 
-    async getProductsDetails(cart) {
-        try {
-            let details = []
-
-            for (const item of cart.items) {
-                let product = await productsService.getID(item.id);
-                
-                details.push({
-                    product,
-                    qty: item.qty
-                });
-            }
-
-            return details;
-        } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'getID()' || Error: ${error.message}`)
-        }
-    }
-
-    async add(id, id_prod, qty) {
+    async addItem(id, id_prod, qty) {
         try {
             const cart = await this.getID(id);
             const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
@@ -87,23 +68,27 @@ class Cart {
 
             await this.#update(id, cart);
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'add()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> 'addItem()' || Error: ${error.message}`)
         }
     }
 
-    async update(id, id_prod, qty) {
-        const cart = await this.getID(id);
-        const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
+    async updateItem(id, id_prod, qty) {
+        try {
+            const cart = await this.getID(id);
+            const itemIndex = ArrayTools.getIndexOfElementID(cart.items, id_prod);
+        
+            let itemToUpdate = cart.items[itemIndex];
+            itemToUpdate.qty = qty;
+        
+            cart.items.splice(itemIndex, 1, itemToUpdate);
     
-        let itemToUpdate = cart.items[itemIndex];
-        itemToUpdate.qty = qty;
-    
-        cart.items.splice(itemIndex, 1, itemToUpdate);
-
-        await this.#update(id, cart);
+            await this.#update(id, cart);
+        } catch (error) {
+            loggerWinston.error(`CartService -> 'updateItem()' || Error: ${error.message}`)
+        }
     }
 
-    async delete(id, id_prod) {
+    async deleteItem(id, id_prod) {
         try {
             const cart = await this.getID(id);
             
@@ -112,7 +97,7 @@ class Cart {
             
             await this.#update(id, cart);
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'delete()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> 'deleteItem()' || Error: ${error.message}`)
         }
     }
 
@@ -122,27 +107,50 @@ class Cart {
             
             await this.#update(id, cart);
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'clean()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> 'clean()' || Error: ${error.message}`)
         }
     }
 
     async checkout(id, client) {
-        const cart = await this.getID(id);
-        const id_order = await ordersService.create(client);
-        const order = await ordersService.addAll(id_order, cart);
-        await this.clean(id, cart);
-
-        notificationsService.notify_NewOrder(order);
-
-        return id_order;
+        try {
+            const cart = await this.getID(id);
+            const id_order = await ordersService.create(client);
+            const order = await ordersService.addAll(id_order, cart);
+            await this.clean(id, cart);
+    
+            notificationsService.notify_NewOrder(order);
+    
+            return id_order;
+        } catch (error) {
+            loggerWinston.error(`CartService -> 'checkout()' || Error: ${error.message}`)
+        }
     }
 
     async #update(id, modifiedCard) {
         try {
             await this.storage.update(id, modifiedCard);
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: '#update()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> '#update()' || Error: ${error.message}`)
         }       
+    }
+
+    async getProductsDetails(cart) {
+        try {
+            let details = []
+
+            for (const item of cart.items) {
+                let product = await productsService.getID(item.id);
+                
+                details.push({
+                    product,
+                    qty: item.qty
+                });
+            }
+
+            return details;
+        } catch (error) {
+            loggerWinston.error(`CartService -> 'getProductsDetails()' || Error: ${error.message}`)
+        }
     }
 
     async validateStock(id, id_prod, qty, method, addMaxAvailable) {
@@ -167,7 +175,7 @@ class Cart {
             
             return checkStock;
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'validateStock()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> 'validateStock()' || Error: ${error.message}`)
         }
     }
 
@@ -192,7 +200,7 @@ class Cart {
                 value: checkStocks.filter(element => !element.isValid)
             };
         } catch (error) {
-            loggerWinston.error(`CartServices -> Ejecutando: 'validateStocks()' || Error: ${error.message}`)
+            loggerWinston.error(`CartService -> 'validateStocks()' || Error: ${error.message}`)
         }
     }
 }

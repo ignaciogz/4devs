@@ -1,4 +1,5 @@
 const brandsService = require('../services/brandsService');
+const loggerWinston = require("../../../utils/logger");
 
 class Brands {
     async brandExist(req, res ,next) {

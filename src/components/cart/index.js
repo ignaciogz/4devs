@@ -7,15 +7,16 @@ const router = express.Router();
 module.exports = app => {
     app.use('/api/cart', router);
 
-    router.get('/', authMw.isAuth, cartController.getID);
-
     router.get('/all', authMw.isAdmin, cartController.getAll);
+
+    // For security reasons, id_cart is getted inside cart controller:
+    router.get('/', authMw.isAuth, cartController.getUserCart);
 
     router.get('/checkout', authMw.isAuth, cartMw.verifyStocks, cartController.checkout);
     
-    router.post('/:id_prod', authMw.isAuth, cartMw.verifyStock, cartController.add);
+    router.post('/:id_prod', authMw.isAuth, cartMw.verifyStock, cartController.addItem);
 
-    router.put('/:id_prod', authMw.isAuth, cartMw.verifyStock, cartController.update);
+    router.put('/:id_prod', authMw.isAuth, cartMw.verifyStock, cartController.updateItem);
     
-    router.delete('/:id_prod', authMw.isAuth, cartController.delete);
+    router.delete('/:id_prod', authMw.isAuth, cartController.deleteItem);
 }

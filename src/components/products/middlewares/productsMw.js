@@ -1,4 +1,5 @@
 const productsService = require('../services/productsService');
+const loggerWinston = require("../../../utils/logger");
 
 class Products {
     async productExist(req, res ,next) {

@@ -15,7 +15,7 @@ class Cart {
         }
     };
 
-    async getID(req, res, next) {
+    async getUserCart(req, res, next) {
         try {
             const { id_cart } = req.user;
     
@@ -27,43 +27,43 @@ class Cart {
                 data: { cart: cartWithProductsDetails } 
             });   
         } catch (error) {
-            loggerWinston.error(`CartController -> 'getID()' || Error: ${error.message}`)
+            loggerWinston.error(`CartController -> 'getUserCart()' || Error: ${error.message}`)
         }
     };
 
-    async add(req, res, next) {
+    async addItem(req, res, next) {
         try {
             const { id_cart } = req.user;
             const { id_prod } = req.params;
             const { qty } = req.body;
             
-            await cartService.add(id_cart, id_prod, qty);
+            await cartService.addItem(id_cart, id_prod, qty);
             
             res.json({ 
                 success: true
             });    
         } catch (error) {
-            loggerWinston.error(`CartController -> 'add()' || Error: ${error.message}`)
+            loggerWinston.error(`CartController -> 'addItem()' || Error: ${error.message}`)
         }
     };
 
-    async update(req, res, next) {
+    async updateItem(req, res, next) {
         try {
             const { id_cart } = req.user;
             const { id_prod } = req.params;
             const { qty } = req.body;
             
-            await cartService.update(id_cart, id_prod, qty);
+            await cartService.updateItem(id_cart, id_prod, qty);
             
             res.json({ 
                 success: true
             });    
         } catch (error) {
-            loggerWinston.error(`CartController -> 'update()' || Error: ${error.message}`)
+            loggerWinston.error(`CartController -> 'updateItem()' || Error: ${error.message}`)
         }
     };
     
-    async delete(req, res, next) {
+    async deleteItem(req, res, next) {
         try {
             const { id_cart } = req.user;
             const { id_prod } = req.params;
@@ -74,7 +74,7 @@ class Cart {
                 success: true,
             });   
         } catch (error) {
-            loggerWinston.error(`CartController -> 'delete()' || Error: ${error.message}`)
+            loggerWinston.error(`CartController -> 'deleteItem()' || Error: ${error.message}`)
         }
     };
 

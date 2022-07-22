@@ -29,6 +29,15 @@ class Orders {
         }
     }
 
+    async getAll() {
+        try {
+            const brands = await this.storage.getAll();
+            return brands;
+        } catch (error) {
+            loggerWinston.error(`OrdersService -> 'getAll()' || Error: ${error.message}`)
+        }
+    }
+
     async getID(id) {
         try {
             const order = await this.storage.getByID(id);
@@ -39,30 +48,37 @@ class Orders {
         }
     }
 
-    async add(id, id_prod, qty) {
+    async add(newOrder) {
         try {
-            const order = await this.getID(id);
-            const item = await productsService.getID(id_prod);
-
-            await productsService.update(id_prod, {
-                ...item,
-                stock: item.stock - qty
-            });
-
-            const brand = await brandsService.getID(item.brand);
-            const category = await categoriesService.getID(item.category);
-            
-            item = ObjectTools.removeAllPropertiesExcept(item, ["id", "name", "price", "img", "stock", "timestamp"]);
-            item.brand = brand.name;
-            item.category = category.name;
-            item.qty = qty;
-
-            order.items.push(item);
-
-            await this.#update(id, order);
+            const brandID = await this.storage.save(newOrder);
+            return brandID;
         } catch (error) {
             loggerWinston.error(`OrdersService -> 'add()' || Error: ${error.message}`)
         }
+    }
+
+    async update(id, modifiedOrder) {
+        try {
+            await this.storage.update(id, modifiedOrder);    
+        } catch (error) {
+            loggerWinston.error(`OrdersService -> 'update()' || Error: ${error.message}`)
+        }
+    }
+
+    async delete(id) {
+        try {
+            await this.storage.deleteById(id);    
+        } catch (error) {
+            loggerWinston.error(`OrdersService -> 'delete()' || Error: ${error.message}`)
+        }
+    }
+    
+    async #update(id, modifiedOrder) {
+        try {
+            await this.storage.update(id, modifiedOrder);
+        } catch (error) {
+            loggerWinston.error(`OrdersService -> '#update()' || Error: ${error.message}`)
+        }       
     }
 
     async addAll(id, cart) {
@@ -98,18 +114,10 @@ class Orders {
         }
     }
 
-    async #update(id, modifiedOrder) {
-        try {
-            await this.storage.update(id, modifiedOrder);
-        } catch (error) {
-            loggerWinston.error(`OrdersService -> '#update()' || Error: ${error.message}`)
-        }       
-    }
-
     async getByEmail(email) {
         try {
-            const user = await this.storage.getByEmail(email);
-            return user;
+            const orders = await this.storage.getByEmail(email);
+            return orders;
         } catch (error) {
             loggerWinston.error(`OrdersService -> 'getByEmail()' || Error: ${error.message}`)
         }

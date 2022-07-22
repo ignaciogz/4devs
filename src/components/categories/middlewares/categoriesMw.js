@@ -1,4 +1,5 @@
 const categoriesService = require('../services/categoriesService');
+const loggerWinston = require("../../../utils/logger");
 
 class Categories {
     async categoryExist(req, res ,next) {
