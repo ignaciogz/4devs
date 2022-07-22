@@ -87,12 +87,12 @@ class Server {
         // ↑ ****** END - GZIP ****** ↑
 
         // ↓ ****** START - SESSIONS ****** ↓
-        this.app.set('trust proxy', 1)
+        !config.DEV && this.app.set('trust proxy', 1)
 
         this.sessionMw = session({
             cookie: { 
                 maxAge: config.DEV ? config.SESSION_TIME_DEV : config.SESSION_TIME_PROD,
-                sameSite: 'none',
+                sameSite: config.DEV ? false : 'none',
                 secure: true
             },
             resave: false,

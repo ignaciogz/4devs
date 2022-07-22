@@ -17,8 +17,8 @@ args = ObjectTools.removeAllPropertiesExcept(args, ["MODE", "PORT"]);
 const config = {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PASS_APP: process.env.ADMIN_PASS_APP,
-    DEV: process.env.NODE_ENV != "production" || true,
-    POSTMAN: process.env.USE_POSTMAN == "true" || false,
+    DEV: process.env.NODE_ENV !== "production",
+    POSTMAN: process.env.USE_POSTMAN === "true",
     SELECTED_STORAGE: process.env.STORAGE,
     SESSION_SECRET: process.env.SESSION_SECRET || "NO SUPER SECRET",
     SESSION_TIME_DEV: Number(process.env.SESSION_TIME_DEV),
