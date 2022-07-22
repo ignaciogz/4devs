@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js -p 8080",
-    "start": "node server.js",
-    "start:local": "node server.js -p 8080"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

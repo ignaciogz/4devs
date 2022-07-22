@@ -20,7 +20,7 @@ class Cart {
                 res.json({
                     success: false,
                     error: {
-                        code: '-1',
+                        code: '-2',
                         description: "Quantity must be > 0"
                     }
                 });
@@ -30,7 +30,7 @@ class Cart {
                 res.json({
                     success: false,
                     error: {
-                        code: '-1',
+                        code: '-2',
                         description: "Insufficient stock",
                         value: checkStock.value
                     }
@@ -55,7 +55,7 @@ class Cart {
                 res.json({
                     success: false,
                     error: {
-                        code: '-1',
+                        code: '-2',
                         description: checkStocks.value.length == 1 ? "Insufficient stock of a product" : "Insufficient stock of some products",
                         value: checkStocks.value
                     }
