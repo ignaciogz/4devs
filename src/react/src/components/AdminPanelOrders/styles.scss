@@ -1,0 +1,67 @@
+@import "../../App.scss";
+
+.admin-panel-orders {
+    &.MuiPaper-root {
+        margin: 0 auto;
+        max-width: 1200px;
+        width: 90%;
+    }
+
+    @media screen and (max-width: 600px) {
+        &.MuiPaper-root {
+            width: 100%;
+        }
+    }
+
+    h1, small {
+        display: block;
+        margin-right: 1rem;
+        text-align: right;
+    }
+
+    .admin-panel-orders-user{
+        ul {
+            display: flex;
+            column-gap: 3rem;
+            margin-top: 1rem;
+            margin-left: 2rem;
+        }
+    }
+    
+    .admin-panel-orders-details{
+        background-color: var(--yellow);
+        box-shadow:  2px 1px -1pxrgba(0,0,0,0.2),0px 1px 1px 0pxrgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+        margin-top: 1rem;
+
+        h2 {
+            text-align: center;
+        }
+    }
+
+    table {
+        .table-content {
+            img {
+                max-height: 70px;
+                max-width: 70px;
+            }
+
+            td:last-child {
+                width: 64px;
+            }
+
+            .units-to-add {
+                width: 100px
+            }
+        }
+
+        .table-footer {
+            td {
+                font-weight: bold;
+            }
+
+            td:last-child {
+                font-size: 1.4rem;
+            }
+        }
+    }
+}

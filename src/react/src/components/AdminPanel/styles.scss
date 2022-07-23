@@ -1,0 +1,10 @@
+@import "../../App.scss";
+
+.admin-panel {
+    .final-list-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+}

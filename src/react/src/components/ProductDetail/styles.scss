@@ -1,0 +1,42 @@
+@import "../../App.scss";
+
+section.product-details {
+    flex-grow: 1;
+    @include sectionContainer(3rem);
+
+    h1 {
+        font-size: 1.875rem;
+        font-weight: bold;
+    }
+
+    img {
+        max-height: 342px;
+        max-width: 342px;
+        width: 100%;
+    }
+
+    .price {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .description {
+        font-size: 1.1rem;
+        margin: .6rem 0;
+    }
+
+    .wrapper-units-to-add {
+        display: flex;
+        align-items: flex-end;
+        margin-top: 1rem;
+
+        .units-to-add {
+            margin-right: .5rem;
+            width: 100px
+        }
+    
+        .add-to-cart-btn {
+            @include addToCartBtn();
+        }
+    }
+}

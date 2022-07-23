@@ -1,0 +1,30 @@
+@import "../../App.scss";
+
+section.productFilters {
+    border: 1.5px solid var(--grey);
+    padding: 1rem;
+
+    h3 {
+        padding: 8px;
+        text-transform: uppercase;
+    }
+
+    ul {
+        list-style: none;
+
+        button {
+            color: var(--black);
+            font-weight: initial;
+            text-transform: capitalize;
+        }
+    }
+
+    .radio-btn {
+        color: gray;
+    }
+
+    .productsFilter-header {
+        display: flex;
+        justify-content: space-between;
+    }
+}

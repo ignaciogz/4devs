@@ -1,0 +1,81 @@
+@import "../../App.scss";
+
+section.cart-detail {
+    flex-grow: 1;
+    min-height: 200px; // OJO
+    @include sectionContainer(3rem);
+
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    table {
+        th:nth-child(2) {
+            padding-left: 0;
+        }
+        
+        .table-content {
+            a {
+                display: flex;
+                align-items: center;
+                color: var(--black);
+                height: 70px;
+            }
+
+            img {
+                max-height: 70px;
+                max-width: 70px;
+            }
+
+            td:first-child {
+                padding-right: 0;
+            }
+
+            td:nth-child(2) {
+                padding-left: 0;
+            }
+
+            td:last-child {
+                width: 64px;
+            }
+
+            .units-to-add {
+                width: 100px
+            }
+        }
+
+        .table-footer {
+            td {
+                font-weight: bold;
+            }
+
+            td:last-child {
+                font-size: 1.4rem;
+            }
+        }
+    }
+
+    .cart-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cart-details-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+
+        button {
+            background-color: var(--black);
+            border-radius: initial;
+    
+            &:hover {
+                background-color: var(--light-blue);
+                color: var(--black);
+            }
+        }
+    }
+}

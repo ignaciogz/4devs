@@ -1,0 +1,26 @@
+@import "../../App.scss";
+
+section.social-networks {
+    display: flex;
+    justify-content: flex-end;
+
+    a {
+        color: var(--white);
+
+        &:visited {
+            color: var(--white);
+        }
+
+        &:nth-child(1):hover {
+            color: #4267B2;
+        }
+
+        &:nth-child(2):hover {
+            color: #26a7de;
+        }
+
+        &:nth-child(3):hover {
+            color: #E1306C;
+        }
+    }
+}

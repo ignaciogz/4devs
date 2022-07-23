@@ -1,0 +1,19 @@
+@import "../../App.scss";
+
+section.error-404 {
+    flex-grow: 1;
+    @include sectionContainer(3rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+        margin-bottom: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+}

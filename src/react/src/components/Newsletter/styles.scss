@@ -1,0 +1,32 @@
+@import "../../App.scss";
+
+section.newsletter {
+    h4 {
+        margin-bottom: .2rem;
+    }
+
+    form {
+        display: flex;
+
+        input {
+            background-color: var(--pure-white);
+            border-radius: initial;
+            height: 1.6rem;
+        }
+
+        button {
+            border-radius: initial;
+            color: var(--pure-white);
+            background-color: var(--grey);
+
+            &:hover {
+                background-color: var(--light-blue);
+            }
+        }
+
+        .text-field {
+            border-radius: initial;
+            width: 50%;
+        }
+    }
+}

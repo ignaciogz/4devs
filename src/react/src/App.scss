@@ -1,0 +1,54 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+:root{
+  // COLORS
+  --black: #252a2b;
+  --grey: rgba(0, 0, 0, 0.12);
+  --pure-white: #fff;
+  --white: #e7e7e7;
+  --light-blue: #44b8fc;
+  --yellow: #dbfd02;
+}
+
+a {
+  text-decoration: none;
+}
+
+.divider {
+  margin: 1rem 0 !important;
+}
+
+.loader {
+  display: flex; 
+  justify-content: center;
+}
+
+@mixin addToCartBtn() {
+  background-color: var(--black);
+    
+    &:hover {
+        background-color: var(--light-blue);
+        color: var(--black);
+    }
+
+    &::before {
+        content: "+";
+        margin-right: .2rem;
+    }
+}
+
+@mixin sectionContainer($mt: 1.5rem, $mb: 1.5rem) {
+  margin: $mt auto $mb;
+  max-width: 1200px;
+}
+
+@media (min-width: 600px) {
+  #back-to-top-anchor {
+    min-height: 1px;
+  }
+}

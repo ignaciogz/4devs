@@ -1,0 +1,53 @@
+@import "../../App.scss";
+
+section.register {
+    flex-grow: 1;
+    @include sectionContainer(3rem);
+
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        label[for="Avatar"]{
+            display: flex;
+            align-items: center;
+            column-gap: .5rem;
+            color: grey;
+            user-select: none;
+
+            span:last-child {
+                width: 115px;
+            }
+
+            .avatarError {
+                color: #d32f2f;
+            }
+    
+            .avatarNoError {
+                color: grey
+            }
+        }
+
+        .formBtn {
+            column-gap: .4rem;
+            background-color: var(--black);
+            border-radius: initial;
+            width: 100%;
+        }
+
+        .formBtn:hover {
+            background-color: var(--light-blue);
+            color: var(--black);
+        }
+
+        div {
+            width: 100%;
+        }
+    }
+}

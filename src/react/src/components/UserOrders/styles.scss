@@ -1,0 +1,6 @@
+@import "../../App.scss";
+
+.user-orders {
+    flex-grow: 1;
+    @include sectionContainer(3rem);
+}

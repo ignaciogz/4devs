@@ -1,0 +1,24 @@
+@import "../../App.scss";
+
+.admin-panel-details {
+    &.MuiPaper-root {
+        margin: 0 auto;
+        max-width: 1200px;
+        width: 90%;
+    }
+
+    @media screen and (max-width: 600px) {
+        &.MuiPaper-root {
+            width: 100%;
+        }
+    }
+
+    table {
+        .table-name {
+            h1 {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+    }
+}

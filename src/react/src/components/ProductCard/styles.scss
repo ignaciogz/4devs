@@ -1,0 +1,28 @@
+@import "../../App.scss";
+
+.product-card {
+    text-align: center;
+
+    .product-details {
+        img {
+            object-fit: fill;
+        }
+
+        .content {
+            padding-bottom: 0;
+
+            .price {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .actions {
+        justify-content: center;
+
+        .add-to-cart-btn {
+            @include addToCartBtn();
+        }
+    }
+}

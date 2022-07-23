@@ -1,0 +1,12 @@
+@import "../../App.scss";
+
+section.productSorter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    small {
+        color: gray;
+        margin-right: 0.5rem;
+    }
+}
