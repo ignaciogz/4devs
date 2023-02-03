@@ -34,6 +34,8 @@
 - Panel de administración (Solo puede acceder el administrador. Los datos son estáticos).
 - Modo Postman.
 
+[![4devs-github.png](https://i.postimg.cc/Mp8FF3MC/4devs-github.png)](https://postimg.cc/6yYc70hc)
+
 <h3 align="left">Menú de usuario:</h3>
 
 <p align="left">Al darle click a su avatar, aparecerá el siguiente menú</p>
